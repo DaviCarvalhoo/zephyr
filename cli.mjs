@@ -33,7 +33,8 @@ function showHelp() {
     console.log(green.bold('Usage:'));
     console.log(`  zephyr               ${dim('Create a new project')}`);
     console.log(`  zephyr create        ${dim('Create a new project')}`);
-    console.log(`  zephyr build ${dim('<app> <builds>')}       ${dim('Build for production')}`);
+    console.log(`  zephyr run           ${dim('Run Zephyr CLI via Docker')}`);
+    console.log(`  zephyr build ${dim('<app> <builds>')}       ${dim('Build for production (or run Docker Build)')}`);
     console.log(`  zephyr build-deps ${dim('<builds>')}        ${dim('Install deps in build')}`);
     console.log(`  zephyr icons ${dim('[--from logo.png]')}    ${dim('Generate mobile icons')}`);
     console.log(`  zephyr update ${dim('<path> [--yes]')}      ${dim('Pull template updates into a project')}`);
@@ -57,19 +58,20 @@ function showVersion() {
     console.log(`${green('zephyr')} ${dim('v' + version)}`);
 }
 
+import { execSync } from 'node:child_process';
+
 async function runBuild(args) {
     const appDir = args[1];
     const buildDir = args[2];
 
     if (!appDir || !buildDir) {
-        console.log(red('Usage: zephyr build <app-dir> <build-dir>'));
-        console.log('');
-        console.log(dim('  <app-dir>    Path to the project (source)'));
-        console.log(dim('  <build-dir>  Path to the builds output'));
-        console.log('');
-        console.log(dim('  Example:'));
-        console.log(`  ${green('$')} zephyr build ../app ../builds`);
-        process.exit(1);
+        console.log(cyan('Iniciando Zephyr via Docker...'));
+        try {
+            execSync('docker compose build && docker compose run --rm zephyr', { stdio: 'inherit' });
+        } catch (e) {
+            process.exit(1);
+        }
+        return;
     }
 
     await buildProject(appDir, buildDir);
@@ -159,6 +161,13 @@ if (!command || command === 'create') {
     await runBuildDeps(args);
 } else if (command === 'icons') {
     await runIcons(args);
+} else if (command === 'run') {
+    console.log(cyan('Iniciando Zephyr (Run) via Docker...'));
+    try {
+        execSync('docker compose run --rm zephyr', { stdio: 'inherit' });
+    } catch (e) {
+        process.exit(1);
+    }
 } else if (command === 'update') {
     const flags = parseFlags(args.slice(1));
     const projectPath = args[1] && !args[1].startsWith('--')
