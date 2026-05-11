@@ -1,0 +1,17 @@
+{
+    "version": 1,
+    "items": [
+        {
+            "id": "welcome",
+            "type": "post",
+            "title": "Bem-vindo!",
+            "body": "Edite server/content/catalog.json para publicar o conteúdo do seu app. A versão é detectada via hash — incremente após qualquer mudança e o cliente faz pull no próximo foreground."
+        },
+        {
+            "id": "getting-started",
+            "type": "post",
+            "title": "Como funciona",
+            "body": "O catálogo viaja por inteiro até o SQLite local. Itens com asset_path apontam para arquivos no S3 que o cliente baixa sob demanda via URLs assinadas com HMAC."
+        }
+    ]
+}

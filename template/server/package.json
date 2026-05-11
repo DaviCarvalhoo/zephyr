@@ -1,0 +1,60 @@
+{
+    "name": "{{PROJECT_SLUG}}-server",
+    "version": "1.0.0",
+    "type": "module",
+    "imports": {
+        "#root/*": "./*",
+        "#api/*": "./apps/api/*",
+        "#shared/*": "./apps/shared/*",
+        "#core/*": "./core/*",
+        "#tests/*": "./tests/*"
+    },
+    "scripts": {
+        "dev": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' tsx watch apps/api/app.ts",
+        "dev:site-api": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' tsx watch apps/site-api/app.ts",
+        "build": "tsc",
+        "migrate:latest": "tsx node_modules/knex/bin/cli.js migrate:latest --knexfile ./core/knexfile.ts",
+        "migrate:rollback": "tsx node_modules/knex/bin/cli.js migrate:rollback --knexfile ./core/knexfile.ts",
+        "migrate:make": "tsx node_modules/knex/bin/cli.js migrate:make --knexfile ./core/knexfile.ts -x ts",
+        "migrate:status": "tsx node_modules/knex/bin/cli.js migrate:status --knexfile ./core/knexfile.ts",
+        "console": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' tsx console/index.ts",
+        "test": "node --import tsx --test \"tests/**/*.test.ts\"",
+        "lint": "eslint \"**/*.{ts,tsx}\"",
+        "lint:fix": "eslint \"**/*.{ts,tsx}\" --fix"
+    },
+    "dependencies": {
+        "@aws-sdk/client-s3": "^3.700.0",
+        "@aws-sdk/s3-request-presigner": "^3.700.0",
+        "bcrypt": "^5.1.1",
+        "cookie-parser": "^1.4.7",
+        "cors": "^2.8.5",
+        "date-fns": "^4.1.0",
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "jsonwebtoken": "^9.0.2",
+        "knex": "^3.1.0",
+        "lodash": "^4.17.21",
+        "multer": "^2.0.2",
+        "multer-s3": "^3.0.1",
+        "nodemailer": "^7.0.13",
+        "pg": "^8.13.3",
+        "zod": "^3.24.2"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^5.0.2",
+        "@types/cookie-parser": "^1.4.7",
+        "@types/cors": "^2.8.17",
+        "@types/express": "^5.0.0",
+        "@types/jsonwebtoken": "^9.0.7",
+        "@types/lodash": "^4.17.15",
+        "@types/multer": "^1.4.12",
+        "@types/multer-s3": "^3.0.3",
+        "@types/nodemailer": "^6.4.17",
+        "@types/node": "^22.10.0",
+        "@stylistic/eslint-plugin": "^5.7.1",
+        "eslint": "^9.39.2",
+        "tsx": "^4.19.2",
+        "typescript": "^5.7.3",
+        "typescript-eslint": "^8.53.1"
+    }
+}

@@ -1,0 +1,22 @@
+<%- include('../partials/header') %>
+
+<main class="min-h-[60vh] flex items-center justify-center px-4">
+    <div class="text-center max-w-md">
+        <p class="text-sm font-bold text-gray-400 tracking-widest mb-4">404</p>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <%= t('notFound.title') %>
+        </h1>
+        <p class="text-gray-600 mb-8">
+            <%= t('notFound.body') %>
+        </p>
+        <a href="<%= urlForLocale(locale) %>"
+           class="inline-flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition-all text-sm font-semibold shadow-lg shadow-gray-900/10">
+            <%= t('notFound.cta') %>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+        </a>
+    </div>
+</main>
+
+<%- include('../partials/footer') %>

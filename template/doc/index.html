@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PROJECT_NAME}} — documentation</title>
+<style>
+    :root {
+        --bg: #0B0D0F;
+        --fg: #F0F2F5;
+        --fg-soft: #8A9099;
+        --fg-muted: #4A5260;
+        --border: #1E2530;
+        --card: #12161A;
+        --primary: {{PRIMARY_COLOR_DARK}};
+        --primary-bg: {{PRIMARY_COLOR_DARK_LIGHT}};
+        --code: #d6deeb;
+        --code-bg: #0e1219;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+            "Inter", "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+    a {
+        color: var(--primary);
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    .layout {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        max-width: 1200px;
+        margin: 0 auto;
+        min-height: 100vh;
+    }
+    nav.toc {
+        position: sticky;
+        top: 0;
+        align-self: start;
+        height: 100vh;
+        overflow: auto;
+        padding: 32px 24px;
+        border-right: 1px solid var(--border);
+    }
+    nav.toc h2 {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        color: var(--fg-soft);
+        margin: 0 0 12px;
+        text-transform: uppercase;
+    }
+    nav.toc h2:not(:first-child) {
+        margin-top: 28px;
+    }
+    nav.toc a {
+        display: block;
+        padding: 6px 0;
+        color: var(--fg);
+        font-size: 14px;
+        opacity: 0.75;
+    }
+    nav.toc a:hover {
+        opacity: 1;
+        text-decoration: none;
+    }
+    nav.toc a.brand {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--primary);
+        opacity: 1;
+        margin-bottom: 24px;
+        padding: 0;
+    }
+    main {
+        padding: 56px 64px 96px;
+        max-width: 820px;
+    }
+    section {
+        margin-bottom: 64px;
+        scroll-margin-top: 24px;
+    }
+    h1 {
+        font-size: 36px;
+        font-weight: 300;
+        margin: 0 0 12px;
+    }
+    h2 {
+        font-size: 26px;
+        font-weight: 500;
+        margin: 48px 0 16px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border);
+    }
+    h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 32px 0 8px;
+        color: var(--fg);
+    }
+    p { color: var(--fg-soft); }
+    p strong { color: var(--fg); font-weight: 600; }
+    .lead {
+        font-size: 17px;
+        color: var(--fg-soft);
+        margin-bottom: 32px;
+    }
+    code {
+        font: 13px/1.5 "SF Mono", "Menlo", "Consolas", monospace;
+        background: var(--code-bg);
+        color: var(--code);
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+    }
+    pre {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px 20px;
+        overflow-x: auto;
+        margin: 16px 0;
+    }
+    pre code {
+        padding: 0;
+        background: none;
+        border: none;
+        font-size: 13px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 16px 0;
+        font-size: 14px;
+    }
+    table th, table td {
+        text-align: left;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--border);
+    }
+    table th {
+        color: var(--fg-soft);
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+    table td {
+        color: var(--fg-soft);
+    }
+    table td:first-child {
+        color: var(--fg);
+        font-family: "SF Mono", monospace;
+        font-size: 13px;
+    }
+    ul, ol {
+        color: var(--fg-soft);
+        padding-left: 22px;
+    }
+    li { margin: 4px 0; }
+    .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: var(--primary-bg);
+        color: var(--primary);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-left: 8px;
+        vertical-align: middle;
+    }
+    .callout {
+        border-left: 3px solid var(--primary);
+        background: var(--primary-bg);
+        padding: 14px 18px;
+        margin: 16px 0;
+        border-radius: 0 8px 8px 0;
+    }
+    .callout p { margin: 0; color: var(--fg); }
+    .callout strong { color: var(--primary); }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin: 16px 0;
+    }
+    .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+    }
+    .card h4 {
+        margin: 0 0 6px;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--fg);
+    }
+    .card p {
+        margin: 0;
+        font-size: 13px;
+    }
+    @media (max-width: 900px) {
+        .layout { grid-template-columns: 1fr; }
+        nav.toc { position: static; height: auto; border-right: none;
+                  border-bottom: 1px solid var(--border); }
+        main { padding: 32px 24px 64px; }
+    }
+</style>
+</head>
+<body>
+<div class="layout">
+    <nav class="toc">
+        <a href="#" class="brand">{{PROJECT_NAME}}</a>
+
+        <h2>Getting started</h2>
+        <a href="#overview">Overview</a>
+        <a href="#presets">Presets</a>
+        <a href="#install">Install &amp; run</a>
+        <a href="#post-install">Post-install (Xcode/Android)</a>
+
+        <h2>Server</h2>
+        <a href="#architecture">Architecture</a>
+        <a href="#auth">Auth (email/Apple/Google)</a>
+        <a href="#api-routes">API routes</a>
+
+        <h2>Mobile</h2>
+        <a href="#mobile-overview">Overview</a>
+        <a href="#offline-db">Offline DB + backup</a>
+        <a href="#content-sync">Content sync</a>
+        <a href="#iap">IAP &amp; premium</a>
+        <a href="#notifications">Notifications</a>
+        <a href="#health">Health</a>
+
+        <h2>Native</h2>
+        <a href="#native-cookbook">Cookbook</a>
+        <a href="#gotchas">Gotchas</a>
+
+        <h2>Reference</h2>
+        <a href="#scripts">Scripts</a>
+        <a href="#code-standards">Code standards</a>
+    </nav>
+
+    <main>
+        <section id="overview">
+            <h1>Documentation</h1>
+            <p class="lead">
+                {{PROJECT_DESCRIPTION}}
+            </p>
+            <p>
+                This template ships a multi-tenant SaaS backend
+                paired with a mobile app that's pre-wired for
+                offline-first use, cloud sync, IAP, push, and health
+                integrations. Everything below is shipped working —
+                you can delete what you don't need.
+            </p>
+            <div class="grid">
+                <div class="card">
+                    <h4>Server</h4>
+                    <p>Express + TypeScript + PostgreSQL + Knex.
+                       Multi-tenant accounts, role-based auth,
+                       S3 uploads, content publishing.</p>
+                </div>
+                <div class="card">
+                    <h4>Mobile</h4>
+                    <p>Expo + React Native + TypeScript. Auth flows,
+                       SQLite offline-first, content sync, IAP,
+                       Apple/Google sign-in, custom-native push,
+                       Health.</p>
+                </div>
+                <div class="card">
+                    <h4>Web</h4>
+                    <p>Admin SPA (Vite + shadcn/ui) and a public
+                       site (EJS + Tailwind).</p>
+                </div>
+                <div class="card">
+                    <h4>Tooling</h4>
+                    <p>One-shot scaffold via the davicarvalhoo CLI,
+                       icon generator, version bumper, EAS release
+                       script, native install helper.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="presets">
+            <h2>Presets</h2>
+            <p>
+                The CLI asks <em>what do you want to generate?</em>
+                up front. Every preset bundles a different set of
+                top-level directories — pick the slimmest one that
+                fits your needs; you can always copy in more later.
+            </p>
+            <table>
+                <thead><tr><th>Preset</th><th>Includes</th></tr></thead>
+                <tbody>
+                    <tr><td>everything</td><td>server + admin UI + site + mobile</td></tr>
+                    <tr><td>web-only</td><td>server + admin UI + site</td></tr>
+                    <tr><td>mobile-and-server</td><td>server + mobile (no admin UI, no public site)</td></tr>
+                    <tr><td>just-mobile</td><td>mobile only — assumes an external API</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="install">
+            <h2>Install &amp; run</h2>
+            <pre><code>./install.sh           # all node deps + .env files
+./seed.sh              # create db + migrate + seed admin
+./dev.sh               # start everything (web only)
+./dev.sh --mobile      # also start Expo Metro</code></pre>
+            <h3>Native iOS / Android</h3>
+            <p>
+                Heavy step — needs Xcode CLI for iOS, Android Studio
+                for Android. Skip on first install if you're just
+                kicking the tires.
+            </p>
+            <pre><code>./install.sh --native  # expo prebuild + pod install + custom modules
+./scripts/run-ios.sh   # build + run on iOS</code></pre>
+        </section>
+
+        <section id="post-install">
+            <h2>Post-install (Xcode + Android)</h2>
+            <p>
+                <code>expo prebuild</code> generates the iOS/Android
+                projects, but a few capabilities have to be enabled by
+                hand — Expo plugins can write entitlements but not
+                check provisioning profiles.
+            </p>
+            <h3>iOS</h3>
+            <ol>
+                <li>Open <code>mobile/{{PROJECT_SLUG}}/ios/{{PROJECT_SLUG}}.xcworkspace</code> in Xcode.</li>
+                <li>Project → target {{PROJECT_SLUG}} → <strong>Signing &amp; Capabilities</strong>.</li>
+                <li>Pick your Team. Xcode will create a Bundle ID matching <code>{{IOS_BUNDLE_ID}}</code>.</li>
+                <li>Click <strong>+ Capability</strong> and add: <em>Sign in with Apple</em>, <em>HealthKit</em>, <em>Push Notifications</em>, and <em>App Groups</em> (if you use Live Activities).</li>
+                <li>For each capability, also enable it in <a href="https://developer.apple.com/account/resources/identifiers/list">Apple Developer Portal</a> under your App ID's capabilities — Xcode generates the entitlement file but won't sign with it unless the App ID has the matching capability.</li>
+                <li>If you're shipping a Widget extension (Live Activity), add the same App Group to the widget target with the same group ID.</li>
+            </ol>
+            <h3>Android</h3>
+            <ol>
+                <li>Open <code>mobile/{{PROJECT_SLUG}}/android</code> in Android Studio.</li>
+                <li>Generate a release keystore: <code>keytool -genkey -v -keystore release.jks -alias key -keyalg RSA -keysize 2048 -validity 10000</code>.</li>
+                <li>Create <code>android/gradle.properties</code> entries for <code>{{PROJECT_SLUG_UPPER}}_UPLOAD_STORE_FILE</code>, <code>_KEY_ALIAS</code>, <code>_STORE_PASSWORD</code>, <code>_KEY_PASSWORD</code> and reference them from <code>android/app/build.gradle</code>'s signingConfigs.</li>
+                <li>For Play Store submissions, drop your service account JSON at <code>mobile/{{PROJECT_SLUG}}/google-play-key.json</code> (or set <code>GOOGLE_PLAY_SERVICE_ACCOUNT_JSON</code> in <code>server/.env</code> and <code>scripts/release-android.sh</code> will extract it on each run).</li>
+                <li>Health Connect users need Android 9+; users on older versions silently no-op. Don't drop <code>minSdkVersion: 26</code> without a plan for the missing platform.</li>
+            </ol>
+            <div class="callout">
+                <p><strong>Heads up.</strong> The first <code>expo prebuild</code> generates fresh <code>ios/</code> and <code>android/</code> directories. <code>scripts/install-native.sh</code> patches them with our custom code; <code>scripts/prebuild.sh</code> refuses <code>--clean</code> so you don't accidentally wipe those edits.</p>
+            </div>
+        </section>
+
+        <section id="architecture">
+            <h2>Server architecture</h2>
+            <p>
+                See <code>architecture.md</code> at the repo root for
+                the full breakdown. The short version:
+            </p>
+            <ul>
+                <li><strong>Multi-tenant.</strong> users → user_in_accounts → accounts → domain entities. Every multi-tenant query filters by <code>account_id</code>.</li>
+                <li><strong>Context-per-request DI.</strong> A fresh <code>Context</code> is built per request with all models instantiated; routes call <code>req.context.user.foo()</code>.</li>
+                <li><strong>Models own knex.</strong> Routes never hit knex directly — every DB op goes through a model method. Easier to test, easier to refactor.</li>
+                <li><strong>Cookie auth for web, Bearer for mobile.</strong> Same JWT, different transport. <code>try-set-user-by-token</code> middleware checks both.</li>
+                <li><strong>Refresh-token rotation.</strong> Mobile clients get a separate refresh token; <code>/api/auth/refresh</code> deletes the old RT and issues a new one (single-flighted on the server).</li>
+            </ul>
+        </section>
+
+        <section id="auth">
+            <h2>Auth flows</h2>
+            <h3>Email + password</h3>
+            <pre><code>POST /api/login    → { ok, user, token, refreshToken }
+POST /api/signup   → { ok, user, account, token, refreshToken }
+POST /api/auth/refresh
+POST /api/logout</code></pre>
+            <h3>Apple Sign-In (iOS)</h3>
+            <p>
+                Client uses <code>expo-apple-authentication</code>,
+                gets a native <code>id_token</code>, posts it to
+                <code>POST /api/auth/apple/mobile</code>. Server
+                verifies the token via Apple's JWKS (zero-dep), find-
+                or-creates the user, returns the token pair.
+            </p>
+            <h3>Google (server-side flow)</h3>
+            <p>
+                <code>WebBrowser.openAuthSessionAsync</code> sends the
+                user to <code>/api/auth/google/app</code>; server
+                redirects to Google; Google redirects to
+                <code>/api/auth/google/callback</code>; server
+                exchanges code for id_token, verifies, mints our
+                token pair, redirects to
+                <code>{{MOBILE_SCHEME}}://auth?token=…&amp;refreshToken=…</code>;
+                client picks up the URL via <code>Linking</code> and
+                calls <code>continueWithToken</code>.
+            </p>
+            <p>
+                Server-side keeps <code>client_secret</code> out of
+                the app bundle and lets one Web OAuth client serve
+                web + iOS + Android.
+            </p>
+        </section>
+
+        <section id="api-routes">
+            <h2>API routes</h2>
+            <table>
+                <thead><tr><th>Path</th><th>Purpose</th></tr></thead>
+                <tbody>
+                    <tr><td>POST /api/login</td><td>email/password → token + refresh</td></tr>
+                    <tr><td>POST /api/signup</td><td>create user + account</td></tr>
+                    <tr><td>POST /api/auth/refresh</td><td>rotate refresh token</td></tr>
+                    <tr><td>POST /api/auth/apple/mobile</td><td>verify native Apple id_token</td></tr>
+                    <tr><td>GET /api/auth/google/app</td><td>start Google OAuth (deep-link return)</td></tr>
+                    <tr><td>GET /api/auth/google/callback</td><td>finish Google OAuth, redirect to scheme://</td></tr>
+                    <tr><td>GET /api/auth</td><td>current user (Bearer or cookie)</td></tr>
+                    <tr><td>POST /api/backup/upload-url</td><td>presigned PUT to staging key</td></tr>
+                    <tr><td>POST /api/backup/promote</td><td>copy staging → real (atomic)</td></tr>
+                    <tr><td>GET /api/backup/download-url</td><td>presigned GET</td></tr>
+                    <tr><td>GET /api/content/version</td><td>cheap probe (16-char hash)</td></tr>
+                    <tr><td>GET /api/content/catalog</td><td>full catalog payload</td></tr>
+                    <tr><td>POST /api/content/sign</td><td>HMAC-protected presigned S3 URL</td></tr>
+                    <tr><td>POST /api/iap/validate</td><td>verify Apple/Google receipt → flip premium</td></tr>
+                    <tr><td>GET /api/iap/status</td><td>poll premium (caller checks on foreground)</td></tr>
+                    <tr><td>POST /api/iap/simulate</td><td>dev-only premium toggle</td></tr>
+                    <tr><td>POST /api/health/sync</td><td>batch health events sink (stub)</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="mobile-overview">
+            <h2>Mobile overview</h2>
+            <p>
+                Read <code>mobile/{{PROJECT_SLUG}}/README.md</code>
+                for the file-by-file breakdown. The architecture
+                is intentionally flat:
+            </p>
+            <ul>
+                <li><code>App.tsx</code> bootstraps providers + kicks off content sync.</li>
+                <li><code>src/contexts/</code> — AuthContext, ThemeContext.</li>
+                <li><code>src/routes/</code> — typed AuthStack ↔ AppStack switch + bottom tabs.</li>
+                <li><code>src/services/</code> — one folder per concern (db, backup, content, iap, health, notifications).</li>
+                <li><code>src/pages/</code> — auth/, main/.</li>
+                <li><code>native/</code> — custom Swift/Kotlin code (copied during install-native.sh).</li>
+            </ul>
+        </section>
+
+        <section id="offline-db">
+            <h2>Offline DB + backup <span class="badge">Phase 2</span></h2>
+            <p>
+                SQLite is the database; the server is a backup
+                destination. UI screens never wait on the network for
+                user data.
+            </p>
+            <h3>Two table classes</h3>
+            <p>
+                In <code>src/services/db/migrations.ts</code>:
+            </p>
+            <ul>
+                <li><strong>USER_TABLES</strong> — tied to one account. Cleared on logout via <code>clearUserData()</code>; backed up to S3 for premium users.</li>
+                <li><strong>SHARED_TABLES</strong> — re-syncable cache (e.g. <code>content_catalog</code>). Persists across logout — the next user skips re-downloading.</li>
+            </ul>
+            <h3>The write gate</h3>
+            <p>
+                <code>setDbSigned(true)</code> on login;
+                <code>setDbSigned(false)</code> at the very start of
+                logout, <em>before</em> table drops. User-scoped writes
+                check <code>demandSigned()</code> first and silently
+                no-op when the gate is closed — keeps in-flight
+                renders from re-creating rows in tables we just
+                dropped.
+            </p>
+            <h3>Backup flow</h3>
+            <ol>
+                <li>POST <code>/api/backup/upload-url</code> → presigned PUT to <em>staging</em> key.</li>
+                <li>PUT to S3 directly.</li>
+                <li>POST <code>/api/backup/promote</code> → server copies staging → canonical.</li>
+            </ol>
+            <p>
+                The previous backup survives if the upload fails
+                between steps. <code>useAutoBackup</code> in
+                <code>routes/index.tsx</code> runs this on cold-start
+                + every foreground transition, throttled to once
+                per hour.
+            </p>
+        </section>
+
+        <section id="content-sync">
+            <h2>Content sync <span class="badge">Phase 3</span></h2>
+            <p>
+                Server publishes a versioned catalog
+                (<code>server/content/catalog.json</code>) — version
+                is the SHA-256 of the file's bytes. Client probes
+                <code>/api/content/version</code> on cold-start and
+                every foreground transition; only pulls the catalog
+                when the version actually changed.
+            </p>
+            <h3>Asset URLs</h3>
+            <p>
+                Large media (audio, images, videos) lives in S3.
+                Client signs a request with HMAC-SHA256 over
+                <code>${ts}:${contentPath}</code> using a shared
+                secret; server verifies, returns a presigned S3 URL
+                cached for ~55 minutes.
+            </p>
+            <pre><code>const url = await getAssetUrl('covers/welcome.jpg');
+&lt;Image source={{ uri: url }} /&gt;</code></pre>
+        </section>
+
+        <section id="iap">
+            <h2>IAP &amp; premium <span class="badge">Phase 4</span></h2>
+            <p>
+                <code>react-native-iap</code> v15 lazy-loaded with
+                try/require so Expo Go gets graceful no-ops.
+            </p>
+            <pre><code>const { activatePremium } = useAuth();
+const purchase = await purchaseSubscription(PRODUCT_IDS.annual);
+const result = await validateWithServer(purchase, token);
+if (result.ok) await activatePremium(result.user);</code></pre>
+            <p>
+                <code>refreshPremiumStatus()</code> runs on every
+                foreground transition (see
+                <code>&lt;PremiumStatusRefresher /&gt;</code>) — catches
+                cancellations the user did externally (App Store /
+                Play Store / website) without webhooks.
+            </p>
+            <div class="callout">
+                <p><strong>Server stub.</strong> <code>core/iap-verify.ts</code> returns active=true with a 30-day expiry and refuses to run in production. Implement Apple's App Store Server API and Google's Play Developer API before shipping anything that takes real money.</p>
+            </div>
+        </section>
+
+        <section id="notifications">
+            <h2>Notifications <span class="badge">Phase 5</span></h2>
+            <p>
+                Custom-native modules — not <code>expo-notifications</code>.
+                Two reasons:
+            </p>
+            <ol>
+                <li><strong>Cold-start tap dispatch.</strong> Native delegate fires before JS boots; we stash the tap in UserDefaults / SharedPreferences and dispatch a <code>{{MOBILE_SCHEME}}://notif</code> deep link.</li>
+                <li><strong>Per-button intents.</strong> Native APIs let action taps flip state without launching the app at all.</li>
+            </ol>
+            <p>
+                Files live in <code>native/{ios,android}/</code>;
+                <code>scripts/install-native.sh</code> copies them
+                into the prebuilt project dirs and prints the manual
+                AppDelegate / MainActivity patches needed.
+            </p>
+        </section>
+
+        <section id="health">
+            <h2>Health <span class="badge">Phase 6</span></h2>
+            <p>
+                Unified surface over <code>react-native-health</code>
+                (iOS HealthKit) and <code>react-native-health-connect</code>
+                (Android Health Connect). Both libraries lazy-loaded;
+                Expo Go gets a no-op service.
+            </p>
+            <pre><code>await requestHealthPermissions();
+const steps = await getStepsToday();
+await writeExerciseSession({
+    type: 'Yoga',
+    startedAt: new Date(Date.now() - 1800_000),
+    durationMs: 1800_000
+});</code></pre>
+            <p>
+                iOS HealthKit needs an entitlement enabled in Apple
+                Developer Portal under your App ID. Android Health
+                Connect requires API 28+.
+            </p>
+        </section>
+
+        <section id="native-cookbook">
+            <h2>Native modules cookbook <span class="badge">Phase 7</span></h2>
+            <p>
+                <code>native/cookbook/</code> ships canonical
+                examples — copy out what you need:
+            </p>
+            <table>
+                <thead><tr><th>Path</th><th>What</th></tr></thead>
+                <tbody>
+                    <tr><td>hello-ios/</td><td>Swift module + .m bridge — sync export, async Promise, exported constants</td></tr>
+                    <tr><td>hello-android/</td><td>Kotlin module + ReactPackage</td></tr>
+                    <tr><td>live-activity/</td><td>iOS WidgetKit Live Activity scaffold + Xcode setup steps</td></tr>
+                </tbody>
+            </table>
+            <p>See <code>mobile/{{PROJECT_SLUG}}/native/README.md</code> for the full breakdown.</p>
+        </section>
+
+        <section id="gotchas">
+            <h2>Gotchas (the ones we paid for)</h2>
+            <ul>
+                <li><strong>NativeEventEmitter on iOS will crash</strong> if the native module doesn't extend <code>RCTEventEmitter</code>. Use <code>Linking</code> events instead.</li>
+                <li><strong>App-extension <code>CFBundleVersion</code></strong> must match the parent app's. <code>scripts/bump-version.sh</code> walks every Info.plist to keep them in sync.</li>
+                <li><strong><code>expo prebuild --clean</code></strong> deletes hand-written native code. <code>scripts/prebuild.sh</code> refuses the flag.</li>
+                <li><strong>NitroModules + Expo Go = crash on import</strong>. Lazy-load with <code>try/require</code>.</li>
+                <li><strong>Single-flight refresh tokens</strong>: every successful refresh deletes the old RT. Concurrent callers must share one in-flight Promise or the second will see a deleted RT and trigger a false logout.</li>
+            </ul>
+        </section>
+
+        <section id="scripts">
+            <h2>Scripts</h2>
+            <p>
+                See <code>scripts/README.md</code> for the full list.
+                The mobile-related ones in summary:
+            </p>
+            <ul>
+                <li><code>scripts/prebuild.sh</code> — safe expo prebuild</li>
+                <li><code>scripts/install-native.sh</code> — copy custom modules + print patches</li>
+                <li><code>scripts/run-ios.sh</code> — build + run on iOS</li>
+                <li><code>scripts/release-android.sh</code> — EAS build + Play submit</li>
+                <li><code>scripts/bump-version.sh</code> — bump version everywhere atomically</li>
+                <li><code>scripts/generate-icons.sh</code> — regenerate icon set</li>
+            </ul>
+        </section>
+
+        <section id="code-standards">
+            <h2>Code standards</h2>
+            <p>
+                See <code>code.md</code> at the repo root for the
+                full list. The non-negotiables across server + mobile:
+            </p>
+            <ul>
+                <li>4-space indent, semicolons, max 80 columns.</li>
+                <li>Always braces — no single-line <code>if</code>/<code>for</code>/<code>while</code> bodies.</li>
+                <li>Never silently catch — every <code>catch</code> at minimum logs.</li>
+                <li>Code in English; user-facing strings in Portuguese.</li>
+                <li>No <code>any</code> in TypeScript — <code>unknown</code> when truly unknown.</li>
+                <li>Routes go through models — never call knex directly from a route.</li>
+            </ul>
+        </section>
+    </main>
+</div>
+</body>
+</html>

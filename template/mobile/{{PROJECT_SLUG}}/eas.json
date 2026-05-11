@@ -1,0 +1,36 @@
+{
+    "cli": {
+        "version": ">= 13.2.0",
+        "appVersionSource": "local"
+    },
+    "build": {
+        "development": {
+            "developmentClient": true,
+            "distribution": "internal",
+            "android": { "buildType": "apk" },
+            "ios": { "simulator": true }
+        },
+        "preview": {
+            "distribution": "internal",
+            "android": { "buildType": "apk" },
+            "ios": { "simulator": false }
+        },
+        "production": {
+            "android": { "buildType": "app-bundle" },
+            "ios": { "simulator": false }
+        }
+    },
+    "submit": {
+        "production": {
+            "ios": {
+                "appleId": "TODO_APPLE_ID",
+                "ascAppId": "TODO_APP_STORE_CONNECT_APP_ID"
+            },
+            "android": {
+                "applicationId": "{{ANDROID_PACKAGE}}",
+                "track": "internal",
+                "serviceAccountKeyPath": "./google-play-key.json"
+            }
+        }
+    }
+}

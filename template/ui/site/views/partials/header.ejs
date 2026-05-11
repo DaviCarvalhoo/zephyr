@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="<%= htmlLang %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : t('meta.siteTitle') %></title>
+    <meta name="description" content="<%= t('meta.siteDescription') %>">
+    <meta name="robots" content="index, follow">
+
+    <%# SEO: hreflang alternates — tells Google about every translated %>
+    <%# version of this page. x-default points at the primary locale %>
+    <%# so users in unmapped regions see the right language. %>
+    <% hreflangAlternates.forEach(function(alt) { %>
+        <link rel="alternate" hreflang="<%= alt.hreflang %>" href="<%= alt.url %>">
+    <% }); %>
+    <link rel="alternate" hreflang="x-default" href="<%= urlForLocale('pt-BR') %>">
+
+    <%# Canonical URL — avoids duplicate-content issues if the same %>
+    <%# content is reachable via multiple URLs (with/without trailing %>
+    <%# slash, with/without query strings, etc.) %>
+    <link rel="canonical" href="<%= canonicalUrl %>">
+
+    <%# Open Graph — locale + alternates for social shares. %>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<%= typeof title !== 'undefined' ? title : t('meta.siteTitle') %>">
+    <meta property="og:description" content="<%= t('meta.siteDescription') %>">
+    <meta property="og:locale" content="<%= ogLocale %>">
+    <% ogLocaleAlternates.forEach(function(alt) { %>
+        <meta property="og:locale:alternate" content="<%= alt %>">
+    <% }); %>
+    <meta property="og:url" content="<%= canonicalUrl %>">
+
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body class="min-h-screen bg-white text-gray-900 antialiased">
+    <header class="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-gray-100">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 lg:h-20">
+                <a href="<%= urlForLocale(locale) %>" class="text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors">
+                    {{PROJECT_NAME}}
+                </a>
+
+                <div class="hidden lg:flex items-center gap-1">
+                    <a href="<%= urlForLocale(locale) %>#features" class="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all text-sm font-medium">
+                        <%= t('nav.features') %>
+                    </a>
+                    <a href="<%= urlForLocale(locale) %>#how-it-works" class="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all text-sm font-medium">
+                        <%= t('nav.howItWorks') %>
+                    </a>
+                    <a href="<%= urlForLocale(locale) %>#contact" class="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all text-sm font-medium">
+                        <%= t('nav.contact') %>
+                    </a>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <%# Language toggle — links to the same page in the other %>
+                    <%# locale via canonicalPath so e.g. /about → /en/about. %>
+                    <a href="<%= urlForLocale(locale === 'pt-BR' ? 'en' : 'pt-BR') %>"
+                       class="hidden sm:inline-flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all text-xs font-bold tracking-wide"
+                       hreflang="<%= locale === 'pt-BR' ? 'en' : 'pt-BR' %>">
+                        <%= t('nav.languageToggle') %>
+                    </a>
+                    <a href="<%= baseAdminUrl %>/login"
+                       class="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all text-sm font-medium">
+                        <%= t('nav.login') %>
+                    </a>
+                    <a href="<%= baseAdminUrl %>/signup"
+                       class="inline-flex items-center gap-2 bg-gray-900 text-white px-5 py-2.5 rounded-xl hover:bg-gray-800 transition-all text-sm font-semibold shadow-lg shadow-gray-900/10 hover:shadow-xl hover:-translate-y-0.5">
+                        <%= t('nav.ctaPrimary') %>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                        </svg>
+                    </a>
+
+                    <button id="mobile-menu-btn" class="lg:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="mobile-menu" class="hidden lg:hidden pb-4">
+                <div class="flex flex-col gap-1 pt-4 border-t border-gray-100">
+                    <a href="<%= urlForLocale(locale) %>#features" class="px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all text-sm font-medium">
+                        <%= t('nav.features') %>
+                    </a>
+                    <a href="<%= urlForLocale(locale) %>#how-it-works" class="px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all text-sm font-medium">
+                        <%= t('nav.howItWorks') %>
+                    </a>
+                    <a href="<%= urlForLocale(locale) %>#contact" class="px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all text-sm font-medium">
+                        <%= t('nav.contact') %>
+                    </a>
+                    <a href="<%= urlForLocale(locale === 'pt-BR' ? 'en' : 'pt-BR') %>"
+                       class="px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all text-sm font-medium"
+                       hreflang="<%= locale === 'pt-BR' ? 'en' : 'pt-BR' %>">
+                        <%= t('nav.languageToggle') %>
+                    </a>
+                    <div class="border-t border-gray-100 mt-2 pt-2">
+                        <a href="<%= baseAdminUrl %>/login" class="px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-all text-sm font-medium block">
+                            <%= t('nav.login') %>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>

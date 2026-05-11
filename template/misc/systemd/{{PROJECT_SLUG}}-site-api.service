@@ -1,0 +1,31 @@
+# {{PROJECT_NAME}} — Site API Service
+#
+# Setup:
+#   1. Copy to /etc/systemd/system/{{PROJECT_SLUG}}-site-api.service
+#   2. sudo systemctl daemon-reload
+#   3. sudo systemctl enable {{PROJECT_SLUG}}-site-api
+#   4. sudo systemctl start {{PROJECT_SLUG}}-site-api
+#
+# Logs:
+#   journalctl -u {{PROJECT_SLUG}}-site-api -f
+#   tail -f /apps/{{PROJECT_SLUG}}/log/site-api.log
+
+[Unit]
+Description={{PROJECT_NAME}} Site API
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/apps/{{PROJECT_SLUG}}/builds/server
+ExecStart=/usr/bin/node apps/site-api/app.js
+Restart=always
+RestartSec=5
+StandardOutput=append:/apps/{{PROJECT_SLUG}}/log/site-api.log
+StandardError=append:/apps/{{PROJECT_SLUG}}/log/site-api.log
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,30 @@
+# {{PROJECT_NAME}} — Public Site Service
+#
+# Setup:
+#   1. Copy to /etc/systemd/system/{{PROJECT_SLUG}}-site.service
+#   2. sudo systemctl daemon-reload
+#   3. sudo systemctl enable {{PROJECT_SLUG}}-site
+#   4. sudo systemctl start {{PROJECT_SLUG}}-site
+#
+# Logs:
+#   journalctl -u {{PROJECT_SLUG}}-site -f
+#   tail -f /apps/{{PROJECT_SLUG}}/log/site.log
+
+[Unit]
+Description={{PROJECT_NAME}} Public Site
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/apps/{{PROJECT_SLUG}}/builds/ui/site
+ExecStart=/usr/bin/node app.js
+Restart=always
+RestartSec=5
+StandardOutput=append:/apps/{{PROJECT_SLUG}}/log/site.log
+StandardError=append:/apps/{{PROJECT_SLUG}}/log/site.log
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

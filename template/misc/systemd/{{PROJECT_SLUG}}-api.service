@@ -1,0 +1,31 @@
+# {{PROJECT_NAME}} — Admin API Service
+#
+# Setup:
+#   1. Copy to /etc/systemd/system/{{PROJECT_SLUG}}-api.service
+#   2. sudo systemctl daemon-reload
+#   3. sudo systemctl enable {{PROJECT_SLUG}}-api
+#   4. sudo systemctl start {{PROJECT_SLUG}}-api
+#
+# Logs:
+#   journalctl -u {{PROJECT_SLUG}}-api -f
+#   tail -f /apps/{{PROJECT_SLUG}}/log/api.log
+
+[Unit]
+Description={{PROJECT_NAME}} Admin API
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/apps/{{PROJECT_SLUG}}/builds/server
+ExecStart=/usr/bin/node apps/api/app.js
+Restart=always
+RestartSec=5
+StandardOutput=append:/apps/{{PROJECT_SLUG}}/log/api.log
+StandardError=append:/apps/{{PROJECT_SLUG}}/log/api.log
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

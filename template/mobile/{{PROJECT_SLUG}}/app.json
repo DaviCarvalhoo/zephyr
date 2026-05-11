@@ -1,0 +1,78 @@
+{
+    "expo": {
+        "name": "{{PROJECT_NAME}}",
+        "slug": "{{PROJECT_SLUG}}",
+        "scheme": "{{MOBILE_SCHEME}}",
+        "version": "0.1.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "automatic",
+        "splash": {
+            "image": "./assets/splash-icon.png",
+            "resizeMode": "contain",
+            "backgroundColor": "{{PRIMARY_COLOR}}"
+        },
+        "ios": {
+            "supportsTablet": false,
+            "bundleIdentifier": "{{IOS_BUNDLE_ID}}",
+            "usesAppleSignIn": true,
+            "entitlements": {
+                "com.apple.developer.healthkit": true
+            },
+            "infoPlist": {
+                "ITSAppUsesNonExemptEncryption": false,
+                "NSHealthShareUsageDescription":
+                    "{{PROJECT_NAME}} reads activity data to keep your fitness summaries accurate.",
+                "NSHealthUpdateUsageDescription":
+                    "{{PROJECT_NAME}} writes session data so it shows up in Apple Health alongside your other apps."
+            }
+        },
+        "android": {
+            "package": "{{ANDROID_PACKAGE}}",
+            "versionCode": 1,
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "{{PRIMARY_COLOR}}"
+            },
+            "permissions": [
+                "android.permission.INTERNET",
+                "com.android.vending.BILLING"
+            ]
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "plugins": [
+            [
+                "expo-build-properties",
+                {
+                    "android": {
+                        "minSdkVersion": 26
+                    }
+                }
+            ],
+            "expo-web-browser",
+            "expo-apple-authentication",
+            "expo-sqlite",
+            "react-native-iap",
+            [
+                "react-native-health",
+                {
+                    "healthSharePermission":
+                        "{{PROJECT_NAME}} reads activity data to keep your fitness summaries accurate.",
+                    "healthUpdatePermission":
+                        "{{PROJECT_NAME}} writes session data so it shows up in Apple Health alongside your other apps."
+                }
+            ],
+            [
+                "./plugins/withAndroidHealthConnect",
+                { "permissions": ["READ_STEPS", "WRITE_EXERCISE"] }
+            ]
+        ],
+        "extra": {
+            "eas": {
+                "projectId": "TODO_EAS_PROJECT_ID"
+            }
+        }
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "name": "davicarvalhoo",
+    "type": "module",
+    "version": "1.1.0",
+    "description": "SaaS starter kit generator — server, admin SPA, public site (i18n), mobile app (offline-first, IAP, native push)",
+    "main": "cli.mjs",
+    "scripts": {
+        "test": "test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/davicarvalhoo/cli.git"
+    },
+    "keywords": [
+        "davicarvalhoo"
+    ],
+    "author": "davicarvalhoo",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/davicarvalhoo/cli/issues"
+    },
+    "bin": {
+        "davicarvalhoo": "cli.mjs"
+    },
+    "homepage": "https://github.com/davicarvalhoo/cli#readme",
+    "dependencies": {
+        "chalk": "^5.4.1",
+        "figlet": "^1.8.2",
+        "inquirer": "^12.7.0",
+        "sharp": "^0.33.5"
+    }
+}

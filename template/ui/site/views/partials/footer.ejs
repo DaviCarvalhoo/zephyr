@@ -1,0 +1,44 @@
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div class="lg:col-span-2">
+                    <a href="<%= urlForLocale(locale) %>" class="text-xl font-bold text-white mb-4 block">
+                        {{PROJECT_NAME}}
+                    </a>
+                    <p class="text-gray-400 text-sm mb-6 max-w-sm">
+                        <%= t('meta.siteDescription') %>
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-6 text-lg"><%= t('footer.product') %></h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="<%= urlForLocale(locale) %>#features" class="hover:text-white transition-colors"><%= t('nav.features') %></a></li>
+                        <li><a href="<%= urlForLocale(locale) %>#how-it-works" class="hover:text-white transition-colors"><%= t('nav.howItWorks') %></a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-6 text-lg"><%= t('footer.support') %></h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="<%= urlForLocale(locale) %>#contact" class="hover:text-white transition-colors"><%= t('footer.contact') %></a></li>
+                        <li><a href="mailto:suporte@{{DOMAIN}}" class="hover:text-white transition-colors">suporte@{{DOMAIN}}</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-sm text-gray-400">
+                        &copy; <%= currentYear %> {{PROJECT_NAME}}. <%= t('footer.rights') %>
+                    </p>
+                    <div class="flex gap-6 text-sm text-gray-400">
+                        <a href="<%= urlForLocale(locale) %>/termos" class="hover:text-white transition-colors"><%= t('footer.terms') %></a>
+                        <a href="<%= urlForLocale(locale) %>/privacidade" class="hover:text-white transition-colors"><%= t('footer.privacy') %></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
