@@ -102,8 +102,28 @@ services:
       - ./ui/site:/app
       - site_modules:/app/node_modules
 
+  # ── Mobile App (Expo Metro Bundler) ────────────────────────
+  mobile:
+    build:
+      context: ./mobile/{{PROJECT_SLUG}}
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - server
+    environment:
+      # Fix for Windows/WSL2 file watching inside Docker
+      CHOKIDAR_USEPOLLING: "true"
+      # Expose Expo to local network
+      EXPO_USE_DEV_SERVER: "true"
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./mobile/{{PROJECT_SLUG}}:/app
+      - mobile_modules:/app/node_modules
+
 volumes:
   pgdata:
   server_modules:
   admin_modules:
   site_modules:
+  mobile_modules:

@@ -442,6 +442,25 @@ async function copyTemplate(outputDir, preset) {
             await fs.promises.rm(path.join(outputDir, entry.name));
         }
     }
+
+    // Prune docker-compose.yml if services were not selected
+    const composePath = path.join(outputDir, 'docker-compose.yml');
+    if (fs.existsSync(composePath)) {
+        let composeContent = await fs.promises.readFile(composePath, 'utf8');
+        if (!presetDef.wantsAdminUi) {
+            composeContent = composeContent.replace(/\n\s*# ── Admin Panel[\s\S]*?(?=\n\s*# ── |\nvolumes:)/g, '\n');
+            composeContent = composeContent.replace(/\n\s*admin_modules:/g, '');
+        }
+        if (!presetDef.wantsSite) {
+            composeContent = composeContent.replace(/\n\s*# ── Public Site[\s\S]*?(?=\n\s*# ── |\nvolumes:)/g, '\n');
+            composeContent = composeContent.replace(/\n\s*site_modules:/g, '');
+        }
+        if (!presetDef.wantsMobile) {
+            composeContent = composeContent.replace(/\n\s*# ── Mobile App[\s\S]*?(?=\n\s*# ── |\nvolumes:)/g, '\n');
+            composeContent = composeContent.replace(/\n\s*mobile_modules:/g, '');
+        }
+        await fs.promises.writeFile(composePath, composeContent);
+    }
 }
 
 export async function createProject() {
