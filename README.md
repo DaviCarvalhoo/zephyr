@@ -54,7 +54,7 @@ docker compose run --rm zephyr --version     # ver versão
 ### Via npm (requer Node.js 20+)
 
 ```bash
-npm install -g zephyr
+npm install -g davicarvalhoo/zephyr
 ```
 
 ## Quick Start
