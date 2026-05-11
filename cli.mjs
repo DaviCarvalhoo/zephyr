@@ -212,11 +212,11 @@ if (!command || command === 'create') {
         console.log(green.bold('   Projeto iniciado com sucesso!'));
         console.log('');
         console.log(dim('  Interfaces disponíveis:'));
-        console.log(`  ${green('➜')}  ${chalk.bold('Site Público:')}    ${cyan(`http://localhost:${sitePort}`)}  ${dim(`(ou http://${localIp}:${sitePort})`)}`);
-        console.log(`  ${green('➜')}  ${chalk.bold('Painel Admin:')}    ${cyan(`http://localhost:${adminPort}`)}  ${dim(`(ou http://${localIp}:${adminPort})`)}`);
+        console.log(`  ${green('➜')}  ${chalk.bold('Site Público:')}    ${cyan(`http://localhost:${sitePort}`)}  ${dim(`(http://${localIp}:${sitePort})`)}`);
+        console.log(`  ${green('➜')}  ${chalk.bold('Painel Admin:')}    ${cyan(`http://localhost:${adminPort}`)}  ${dim(`(http://${localIp}:${adminPort})`)}`);
         console.log(dim('  APIs e Backend:'));
-        console.log(`  ${green('➜')}  ${chalk.bold('Admin API:')}      ${cyan(`http://localhost:${apiPort}`)}`);
-        console.log(`  ${green('➜')}  ${chalk.bold('Site API:')}       ${cyan(`http://localhost:${siteApiPort}`)}`);
+        console.log(`  ${green('➜')}  ${chalk.bold('Admin API:')}      ${cyan(`http://localhost:${apiPort}`)}  ${dim(`(http://${localIp}:${apiPort})`)}`);
+        console.log(`  ${green('➜')}  ${chalk.bold('Site API:')}       ${cyan(`http://localhost:${siteApiPort}`)}  ${dim(`(http://${localIp}:${siteApiPort})`)}`);
         console.log('');
         console.log(chalk.yellow('  ➜  Pressione CTRL+C para encerrar o sistema.'));
         console.log('');

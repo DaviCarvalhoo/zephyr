@@ -82,14 +82,30 @@ O CLI vai perguntar:
 
 Depois de confirmar, o projeto e gerado com tudo configurado.
 
-## Comandos
+### 🐳 Gerenciando o projeto (Docker-first)
+
+Depois de criar o projeto, entre na pasta e use os novos comandos simplificados:
+
+```bash
+cd meu-projeto
+
+# Constrói as imagens (primeira vez)
+zephyr build
+
+# Sobe o sistema completo com banner de URLs
+zephyr run
+```
+
+O comando `zephyr run` agora mostra um banner limpo com os endereços de acesso (incluindo seu IP local para testes no celular) e encerra tudo automaticamente ao apertar `Ctrl+C`.
+
+---
 
 | Comando | Descricao |
 |---|---|
 | `zephyr` | Cria um novo projeto (interativo) |
 | `zephyr create` | Cria um novo projeto (interativo) |
-| `zephyr build <app> <builds>` | Build de producao |
-| `zephyr build-deps <builds>` | Instala dependencias no build |
+| `zephyr run` | Inicia o sistema via Docker no diretório atual (mostra banner e IP) |
+| `zephyr build` | Constrói as imagens Docker do projeto (ou build de produção se passar caminhos) |
 | `zephyr icons [--from logo.png]` | Gera icones do app mobile |
 | `zephyr update <path> [--yes]` | Atualiza projeto existente com novas mudancas do template |
 | `zephyr --help` | Mostra ajuda |
