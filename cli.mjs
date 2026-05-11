@@ -3,6 +3,10 @@
 import chalk from 'chalk';
 import figlet from 'figlet';
 import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
+
+const cliDir = dirname(fileURLToPath(import.meta.url));
 
 import { createProject } from './create.mjs';
 import { buildProject, buildDeps } from './build.mjs';
@@ -67,7 +71,7 @@ async function runBuild(args) {
     if (!appDir || !buildDir) {
         console.log(cyan('Iniciando Zephyr via Docker...'));
         try {
-            execSync('docker compose build && docker compose run --rm zephyr', { stdio: 'inherit' });
+            execSync('docker compose build && docker compose run --rm zephyr', { stdio: 'inherit', cwd: cliDir });
         } catch (e) {
             process.exit(1);
         }
@@ -164,7 +168,7 @@ if (!command || command === 'create') {
 } else if (command === 'run') {
     console.log(cyan('Iniciando Zephyr (Run) via Docker...'));
     try {
-        execSync('docker compose run --rm zephyr', { stdio: 'inherit' });
+        execSync('docker compose run --rm zephyr', { stdio: 'inherit', cwd: cliDir });
     } catch (e) {
         process.exit(1);
     }
