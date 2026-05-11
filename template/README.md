@@ -13,6 +13,19 @@ integrations.
 
 ## Quick start
 
+### Via Docker (Recomendado)
+
+Inicie todos os serviços, incluindo banco de dados, em um comando:
+
+```bash
+docker compose up --build
+```
+> O Docker cria e configura o PostgreSQL automaticamente e o servidor já roda as migrations e popula o admin inicial.
+
+### Local (Node.js)
+
+Se preferir rodar local sem Docker:
+
 ```bash
 ./install.sh           # install all node deps + scaffold .env files
 ./seed.sh              # create db + run migrations + seed admin user

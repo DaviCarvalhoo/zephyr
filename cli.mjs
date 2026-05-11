@@ -20,7 +20,7 @@ const dim = chalk.hex('#a0a0a0');
 
 function showBanner() {
     console.log('');
-    console.log(green(figlet.textSync('zephyr', { font: 'Small' })));
+    console.log(green(figlet.textSync('Zephyr', { font: 'Small' })));
     console.log(dim('  SaaS starter kit generator'));
     console.log(dim('  TypeScript + React + PostgreSQL + multi-tenant'));
     console.log(cyan('  github.com/davicarvalhoo'));

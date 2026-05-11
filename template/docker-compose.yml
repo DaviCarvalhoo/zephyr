@@ -1,0 +1,109 @@
+# ─────────────────────────────────────────────────────────────
+# {{PROJECT_NAME}} — Docker Compose
+#
+# Usage:
+#   docker compose up              # start everything
+#   docker compose up -d           # start in background
+#   docker compose down            # stop everything
+#   docker compose logs -f         # follow logs
+#   docker compose exec server sh  # shell into server container
+#
+# First run:
+#   docker compose up --build
+#   The database is automatically created, migrated, and seeded.
+# ─────────────────────────────────────────────────────────────
+services:
+
+  # ── PostgreSQL ─────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: {{DB_NAME}}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    # Uncomment below to expose Postgres to your host machine (e.g. for DBeaver)
+    # ports:
+    #   - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d {{DB_NAME}}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ── Server (Admin API + Site API) ──────────────────────────
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PORT: {{API_PORT}}
+      SITE_API_PORT: {{SITE_API_PORT}}
+      NODE_ENV: development
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: {{DB_NAME}}
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      JWT_TOKEN_SECRET: {{JWT_TOKEN_SECRET}}
+      DOMAIN: http://localhost:{{ADMIN_UI_PORT}}
+      SITE_DOMAIN: http://localhost:{{SITE_PORT}}
+      BASE_UI_URL: http://localhost:{{ADMIN_UI_PORT}}
+      BASE_API_URL: http://localhost:{{API_PORT}}
+      BASE_SITE_API_URL: http://localhost:{{SITE_API_PORT}}
+      CONTENT_SECRET: {{CONTENT_SECRET}}
+      ADMIN_EMAIL: {{ADMIN_EMAIL}}
+      ADMIN_PASSWORD: {{ADMIN_PASSWORD}}
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: mock_key
+      AWS_SECRET_ACCESS_KEY: mock_secret
+    ports:
+      - "{{API_PORT}}:{{API_PORT}}"
+      - "{{SITE_API_PORT}}:{{SITE_API_PORT}}"
+    volumes:
+      - ./server:/app
+      - server_modules:/app/node_modules
+
+  # ── Admin Panel (React + Vite) ─────────────────────────────
+  admin:
+    build:
+      context: ./ui/admin
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - server
+    ports:
+      - "{{ADMIN_UI_PORT}}:{{ADMIN_UI_PORT}}"
+    volumes:
+      - ./ui/admin:/app
+      - admin_modules:/app/node_modules
+
+  # ── Public Site (EJS + Tailwind) ───────────────────────────
+  site:
+    build:
+      context: ./ui/site
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - server
+    environment:
+      PORT: {{SITE_PORT}}
+      BASE_ADMIN_URL: http://localhost:{{ADMIN_UI_PORT}}
+      BASE_SITE_API_URL: http://localhost:{{SITE_API_PORT}}
+    ports:
+      - "{{SITE_PORT}}:{{SITE_PORT}}"
+    volumes:
+      - ./ui/site:/app
+      - site_modules:/app/node_modules
+
+volumes:
+  pgdata:
+  server_modules:
+  admin_modules:
+  site_modules:

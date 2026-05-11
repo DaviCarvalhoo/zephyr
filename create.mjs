@@ -66,13 +66,13 @@ const PRESETS = {
 const ROOT_FILES_BY_PRESET = {
     everything:           ['CLAUDE.md', 'AGENTS.md', 'README.md',
                            'architecture.md', 'code.md',
-                           'install.sh', 'seed.sh', 'dev.sh'],
+                           'install.sh', 'seed.sh', 'dev.sh', 'docker-compose.yml'],
     'web-only':           ['CLAUDE.md', 'AGENTS.md', 'README.md',
                            'architecture.md', 'code.md',
-                           'install.sh', 'seed.sh', 'dev.sh'],
+                           'install.sh', 'seed.sh', 'dev.sh', 'docker-compose.yml'],
     'mobile-and-server':  ['CLAUDE.md', 'AGENTS.md', 'README.md',
                            'architecture.md', 'code.md',
-                           'install.sh', 'seed.sh', 'dev.sh'],
+                           'install.sh', 'seed.sh', 'dev.sh', 'docker-compose.yml'],
     'just-mobile':        ['CLAUDE.md', 'README.md', 'code.md',
                            'install.sh', 'dev.sh'],
 };
