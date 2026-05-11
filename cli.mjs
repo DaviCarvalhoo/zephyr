@@ -12,6 +12,20 @@ import { createProject } from './create.mjs';
 import { buildProject, buildDeps } from './build.mjs';
 import { generateIcons } from './icons.mjs';
 import { updateProject } from './update.mjs';
+import fs from 'node:fs';
+
+function getProjectPort(key, fallback) {
+    try {
+        const envPath = './.env';
+        if (fs.existsSync(envPath)) {
+            const env = fs.readFileSync(envPath, 'utf8');
+            const regex = new RegExp(`^${key}=(\\d+)`, 'm');
+            const match = env.match(regex);
+            return match ? match[1] : fallback;
+        }
+    } catch (e) {}
+    return fallback;
+}
 
 const require = createRequire(import.meta.url);
 const { version } = require('./package.json');
@@ -69,10 +83,13 @@ async function runBuild(args) {
     const buildDir = args[2];
 
     if (!appDir || !buildDir) {
-        console.log(cyan('Construindo o projeto via Docker (docker compose build)...'));
+        showBanner();
+        console.log(cyan('   Construindo imagens Docker (isso pode demorar na primeira vez)...'));
         try {
-            execSync('docker compose build', { stdio: 'inherit' }); // Uses the user's current directory
+            execSync('docker compose build', { stdio: 'inherit' }); 
+            console.log('\n' + green.bold('  Imagens construídas com sucesso!') + '\n');
         } catch (e) {
+            console.log(red('\n  Erro ao construir as imagens.'));
             process.exit(1);
         }
         return;
@@ -166,10 +183,34 @@ if (!command || command === 'create') {
 } else if (command === 'icons') {
     await runIcons(args);
 } else if (command === 'run') {
-    console.log(cyan('Iniciando o projeto via Docker (docker compose up)...'));
+    showBanner();
+    console.log(cyan('   Iniciando sistema Zephyr em background...'));
     try {
-        execSync('docker compose up --build', { stdio: 'inherit' }); // Uses the user's current directory
+        // Run detached to keep terminal clean
+        execSync('docker compose up --build -d', { stdio: 'ignore' });
+        
+        const sitePort = getProjectPort('SITE_PORT', '3000');
+        const adminPort = getProjectPort('ADMIN_UI_PORT', '5173');
+        const apiPort = getProjectPort('API_PORT', '4000');
+        const siteApiPort = getProjectPort('SITE_API_PORT', '4001');
+
+        console.log('');
+        console.log(green.bold('  ✅ Projeto iniciado com sucesso!'));
+        console.log('');
+        console.log(dim('  Interfaces disponíveis:'));
+        console.log(`  ${green('➜')}  ${chalk.bold('Site Público:')}    ${cyan(`http://localhost:${sitePort}`)}`);
+        console.log(`  ${green('➜')}  ${chalk.bold('Painel Admin:')}    ${cyan(`http://localhost:${adminPort}`)}`);
+        console.log('');
+        console.log(dim('  APIs e Backend:'));
+        console.log(`  ${green('➜')}  ${chalk.bold('Admin API:')}      ${cyan(`http://localhost:${apiPort}`)}`);
+        console.log(`  ${green('➜')}  ${chalk.bold('Site API:')}       ${cyan(`http://localhost:${siteApiPort}`)}`);
+        console.log('');
+        console.log(dim('  Comandos úteis:'));
+        console.log(dim('  - Ver logs:    ') + chalk.white('docker compose logs -f'));
+        console.log(dim('  - Parar tudo:  ') + chalk.white('docker compose down'));
+        console.log('');
     } catch (e) {
+        console.log(red('\n   Erro ao iniciar. Verifique se o Docker Desktop está rodando ou use "docker compose up" para debugar.'));
         process.exit(1);
     }
 } else if (command === 'update') {
