@@ -15,12 +15,12 @@ integrations.
 
 ### Via Docker (Recomendado)
 
-Inicie todos os serviços, incluindo banco de dados, em um comando:
+Inicie todos os serviços da stack de uma vez:
 
 ```bash
 docker compose up --build
 ```
-> O Docker cria e configura o PostgreSQL automaticamente e o servidor já roda as migrations e popula o admin inicial.
+> O Docker cria e configura o PostgreSQL automaticamente, roda as migrations da API, popula o admin inicial, levanta as UIs web e até sobe o **Expo Metro Bundler** (na porta 8081) caso o seu preset inclua o aplicativo mobile!
 
 ### Local (Node.js)
 

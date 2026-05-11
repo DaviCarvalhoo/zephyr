@@ -5,6 +5,8 @@
     "description": "SaaS starter kit generator — server, admin SPA, public site (i18n), mobile app (offline-first, IAP, native push)",
     "main": "cli.mjs",
     "scripts": {
+        "start": "docker compose run --rm zephyr",
+        "dev": "docker compose build && docker compose run --rm zephyr",
         "test": "test"
     },
     "repository": {
