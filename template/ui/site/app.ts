@@ -101,5 +101,10 @@ app.use((_req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Site running on http://localhost:${port}`);
+    console.log('\x1b[36m%s\x1b[0m', '══════════════════════════════════════');
+    console.log('\x1b[36m%s\x1b[0m', '  Zephyr Public Site');
+    console.log('\x1b[36m%s\x1b[0m', '══════════════════════════════════════');
+    console.log('');
+    console.log(`  ➜  Local:   \x1b[36mhttp://localhost:${port}/\x1b[0m`);
+    console.log('');
 });

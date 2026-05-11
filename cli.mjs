@@ -69,9 +69,9 @@ async function runBuild(args) {
     const buildDir = args[2];
 
     if (!appDir || !buildDir) {
-        console.log(cyan('Iniciando Zephyr via Docker...'));
+        console.log(cyan('Construindo o projeto via Docker (docker compose build)...'));
         try {
-            execSync('docker compose build && docker compose run --rm zephyr', { stdio: 'inherit', cwd: cliDir });
+            execSync('docker compose build', { stdio: 'inherit' }); // Uses the user's current directory
         } catch (e) {
             process.exit(1);
         }
@@ -166,9 +166,9 @@ if (!command || command === 'create') {
 } else if (command === 'icons') {
     await runIcons(args);
 } else if (command === 'run') {
-    console.log(cyan('Iniciando Zephyr (Run) via Docker...'));
+    console.log(cyan('Iniciando o projeto via Docker (docker compose up)...'));
     try {
-        execSync('docker compose run --rm zephyr', { stdio: 'inherit', cwd: cliDir });
+        execSync('docker compose up --build', { stdio: 'inherit' }); // Uses the user's current directory
     } catch (e) {
         process.exit(1);
     }
