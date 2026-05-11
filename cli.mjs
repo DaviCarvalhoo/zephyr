@@ -184,7 +184,7 @@ if (!command || command === 'create') {
     await runIcons(args);
 } else if (command === 'run') {
     showBanner();
-    console.log(cyan('   Iniciando sistema Zephyr em background...'));
+    console.log(cyan('  Iniciando sistema Zephyr em background...'));
     try {
         // Run detached to keep terminal clean
         execSync('docker compose up --build -d', { stdio: 'ignore' });
@@ -195,7 +195,7 @@ if (!command || command === 'create') {
         const siteApiPort = getProjectPort('SITE_API_PORT', '4001');
 
         console.log('');
-        console.log(green.bold('  ✅ Projeto iniciado com sucesso!'));
+        console.log(green.bold('  Projeto iniciado com sucesso!'));
         console.log('');
         console.log(dim('  Interfaces disponíveis:'));
         console.log(`  ${green('➜')}  ${chalk.bold('Site Público:')}    ${cyan(`http://localhost:${sitePort}`)}`);
@@ -205,12 +205,27 @@ if (!command || command === 'create') {
         console.log(`  ${green('➜')}  ${chalk.bold('Admin API:')}      ${cyan(`http://localhost:${apiPort}`)}`);
         console.log(`  ${green('➜')}  ${chalk.bold('Site API:')}       ${cyan(`http://localhost:${siteApiPort}`)}`);
         console.log('');
-        console.log(dim('  Comandos úteis:'));
-        console.log(dim('  - Ver logs:    ') + chalk.white('docker compose logs -f'));
-        console.log(dim('  - Parar tudo:  ') + chalk.white('docker compose down'));
+        console.log(chalk.yellow('  ➜  Pressione CTRL+C para encerrar o sistema.'));
         console.log('');
+        console.log(dim('  Dica: Para ver os logs reais, use "docker compose logs -f" em outro terminal.'));
+        console.log('');
+
+        // Catch Ctrl+C to stop the containers
+        process.on('SIGINT', () => {
+            console.log('\n' + cyan('  Encerrando containers do sistema...'));
+            try {
+                execSync('docker compose stop', { stdio: 'ignore' });
+                console.log(green('  Sistema encerrado com sucesso.'));
+            } catch (e) {
+                console.log(red('  Não foi possível parar os containers automaticamente.'));
+            }
+            process.exit(0);
+        });
+
+        // Keep process alive
+        setInterval(() => {}, 1000);
     } catch (e) {
-        console.log(red('\n   Erro ao iniciar. Verifique se o Docker Desktop está rodando ou use "docker compose up" para debugar.'));
+        console.log(red('\n  Erro ao iniciar. Verifique se o Docker Desktop está rodando ou use "docker compose up" para debugar.'));
         process.exit(1);
     }
 } else if (command === 'update') {
