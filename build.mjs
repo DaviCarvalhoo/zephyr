@@ -37,7 +37,7 @@ export async function buildProject(appDir, buildDir) {
     }
 
     console.log('');
-    console.log(green.bold('=== davicarvalhoo build ==='));
+    console.log(green.bold('=== zephyr build ==='));
     console.log('');
     console.log(`  ${chalk.bold('Source:')}  ${cyan(appDir)}`);
     console.log(`  ${chalk.bold('Output:')}  ${cyan(buildDir)}`);
@@ -100,13 +100,13 @@ export async function buildProject(appDir, buildDir) {
         const buildSiteOut = path.join(buildDir, 'ui', 'site');
 
         // Preserve node_modules + .env from previous build-deps
-        const tmpModules = `/tmp/_davicarvalhoo_site_modules_${nextNumber}`;
+        const tmpModules = `/tmp/_zephyr_site_modules_${nextNumber}`;
         const siteModules = path.join(buildSiteOut, 'node_modules');
         if (fs.existsSync(siteModules)) {
             fs.renameSync(siteModules, tmpModules);
         }
 
-        const tmpEnv = `/tmp/_davicarvalhoo_site_env_${nextNumber}`;
+        const tmpEnv = `/tmp/_zephyr_site_env_${nextNumber}`;
         const siteEnv = path.join(buildSiteOut, '.env');
         if (fs.existsSync(siteEnv)) {
             fs.renameSync(siteEnv, tmpEnv);
@@ -207,13 +207,13 @@ export async function buildProject(appDir, buildDir) {
         const buildServerOut = path.join(buildDir, 'server');
 
         // Preserve node_modules and .env from previous build-deps
-        const tmpServerModules = `/tmp/_davicarvalhoo_server_modules_${nextNumber}`;
+        const tmpServerModules = `/tmp/_zephyr_server_modules_${nextNumber}`;
         const serverModules = path.join(buildServerOut, 'node_modules');
         if (fs.existsSync(serverModules)) {
             fs.renameSync(serverModules, tmpServerModules);
         }
 
-        const tmpServerEnv = `/tmp/_davicarvalhoo_server_env_${nextNumber}`;
+        const tmpServerEnv = `/tmp/_zephyr_server_env_${nextNumber}`;
         const serverEnv = path.join(buildServerOut, '.env');
         if (fs.existsSync(serverEnv)) {
             fs.renameSync(serverEnv, tmpServerEnv);
@@ -290,7 +290,7 @@ export async function buildProject(appDir, buildDir) {
     console.log(`  ${chalk.bold('Site UI:')}   ${cyan(path.join(buildDir, 'ui', 'site'))}`);
     console.log(`  ${chalk.bold('Server:')}    ${cyan(path.join(buildDir, 'server'))}`);
     console.log('');
-    console.log(dim('  Next: run davicarvalhoo build-deps on the target machine'));
+    console.log(dim('  Next: run zephyr build-deps on the target machine'));
     console.log('');
 }
 
@@ -303,12 +303,12 @@ export async function buildDeps(buildDir) {
 
     if (!fs.existsSync(buildDir)) {
         console.log(red(`Build directory not found: ${buildDir}`));
-        console.log(dim('Run davicarvalhoo build first.'));
+        console.log(dim('Run zephyr build first.'));
         process.exit(1);
     }
 
     console.log('');
-    console.log(green.bold('=== davicarvalhoo build-deps ==='));
+    console.log(green.bold('=== zephyr build-deps ==='));
     console.log('');
     console.log(`  ${chalk.bold('Output:')}  ${cyan(buildDir)}`);
     console.log('');
@@ -334,7 +334,7 @@ export async function buildDeps(buildDir) {
 
     if (parts.length === 0) {
         console.log(red('No build output found.'));
-        console.log(dim('Run davicarvalhoo build first.'));
+        console.log(dim('Run zephyr build first.'));
         process.exit(1);
     }
 

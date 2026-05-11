@@ -4,7 +4,7 @@
 
 {{PROJECT_DESCRIPTION}}
 
-Multi-tenant SaaS built with the **davicarvalhoo** architecture pattern.
+Multi-tenant SaaS built with the **zephyr** architecture pattern.
 Server + admin UI + public site + mobile app, all sharing the same
 auth/data backbone.
 
@@ -51,7 +51,7 @@ URLs:
 ├── scripts/                ALL helpers (mobile, deploy, version, icons)
 ├── doc/                    HTML documentation (open doc/index.html)
 ├── misc/                   systemd units, nginx samples
-├── .davicarvalhoo/manifest.json Per-file hashes — used by `davicarvalhoo update`
+├── .zephyr/manifest.json Per-file hashes — used by `zephyr update`
 └── .claude/settings.json   Permission allowlist for routine commands
 ```
 
@@ -160,15 +160,15 @@ Full list: [`code.md`](./code.md).
 
 ## Updating an existing project
 
-When the davicarvalhoo template ships a new version (new files, fixes,
+When the zephyr template ships a new version (new files, fixes,
 refactors), pull the changes in:
 
 ```bash
-davicarvalhoo update .          # walk template + project, prompt per file
-davicarvalhoo update . --yes    # accept all auto-updates without prompting
+zephyr update .          # walk template + project, prompt per file
+zephyr update . --yes    # accept all auto-updates without prompting
 ```
 
-The CLI uses `.davicarvalhoo/manifest.json` (written at scaffold time)
+The CLI uses `.zephyr/manifest.json` (written at scaffold time)
 to know which files are user-edited vs untouched. Untouched files
 auto-update; edited files surface a diff and ask before overriding.
 Generated assets (icons) regenerate from the manifest's saved

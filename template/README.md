@@ -193,4 +193,4 @@ MIT
 
 ---
 
-🛠  Built with the **davicarvalhoo** stack — _aulas em [github.com/davicarvalhoo](https://github.com/davicarvalhoo)_
+🛠  Built with the **zephyr** stack — _aulas em [github.com/davicarvalhoo](https://github.com/davicarvalhoo)_

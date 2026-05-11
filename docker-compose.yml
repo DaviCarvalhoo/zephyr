@@ -1,0 +1,16 @@
+# ─────────────────────────────────────────────────────────────
+# Zephyr CLI — Docker Compose
+#
+# Usage:
+#   docker compose run --rm zephyr             # create a project
+#   docker compose run --rm zephyr create      # same as above
+#   docker compose run --rm zephyr --help      # show help
+#   docker compose run --rm zephyr icons       # generate icons
+# ─────────────────────────────────────────────────────────────
+services:
+  zephyr:
+    build: .
+    stdin_open: true   # needed for interactive prompts (inquirer)
+    tty: true          # needed for colored output + cursor control
+    volumes:
+      - ./output:/output  # generated projects land here

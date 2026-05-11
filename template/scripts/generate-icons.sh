@@ -13,7 +13,7 @@
 #   icon.png, adaptive-icon.png, splash-icon.png, favicon.png,
 #   appstore.png, playstore.png
 #
-# Backed by `davicarvalhoo icons` from the davicarvalhoo-cli — the same generator
+# Backed by `zephyr icons` from the zephyr-cli — the same generator
 # used at scaffold time, so the result is consistent.
 
 set -euo pipefail
@@ -32,15 +32,15 @@ if [[ $# -gt 0 ]]; then
     SOURCE_FLAG="--from $1"
 fi
 
-# Prefer a globally-installed davicarvalhoo; fall back to npx.
-if command -v davicarvalhoo >/dev/null 2>&1; then
-    davicarvalhoo icons \
+# Prefer a globally-installed zephyr; fall back to npx.
+if command -v zephyr >/dev/null 2>&1; then
+    zephyr icons \
         --out "$ASSETS_DIR" \
         --primary "$PRIMARY_COLOR" \
         --letter "$LETTER" \
         $SOURCE_FLAG
 else
-    npx davicarvalhoo icons \
+    npx zephyr icons \
         --out "$ASSETS_DIR" \
         --primary "$PRIMARY_COLOR" \
         --letter "$LETTER" \

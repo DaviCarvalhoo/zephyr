@@ -1,5 +1,5 @@
 /**
- * Template variables and theme generation for davicarvalhoo-cli.
+ * Template variables and theme generation for zephyr-cli.
  *
  * All template placeholders are defined here. When adding a new placeholder:
  * 1. Add a `{{PLACEHOLDER}}` in the template files
@@ -236,7 +236,7 @@ export function buildReplacements(details) {
         '{{MOBILE_SCHEME}}': details.mobileScheme,
         // Random secrets generated once per project. After scaffold,
         // the values are saved into the manifest so subsequent
-        // `davicarvalhoo update` runs reuse them — otherwise every update
+        // `zephyr update` runs reuse them — otherwise every update
         // would regenerate the secret and break sessions / signed
         // URLs already issued by the running app.
         '{{CONTENT_SECRET}}': details.contentSecret ?? randomSecret(),

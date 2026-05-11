@@ -4,7 +4,7 @@
 
 {{PROJECT_DESCRIPTION}}
 
-Multi-tenant SaaS application built with the **davicarvalhoo** architecture pattern for the Brazilian market.
+Multi-tenant SaaS application built with the **zephyr** architecture pattern for the Brazilian market.
 
 ## Quick Start
 

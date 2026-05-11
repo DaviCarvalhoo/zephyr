@@ -2,7 +2,7 @@
 // time and kept in lock-step with ui/admin's CSS variables — same intent,
 // expressed as RN-native hex values.
 //
-// Edit `template-variables.mjs` (in davicarvalhoo-cli) to change how these are
+// Edit `template-variables.mjs` (in zephyr-cli) to change how these are
 // derived; on the mobile side just consume `useTheme().colors`.
 
 export interface ThemePalette {

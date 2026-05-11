@@ -12,7 +12,7 @@ import { updateProject } from './update.mjs';
 const require = createRequire(import.meta.url);
 const { version } = require('./package.json');
 
-// davicarvalhoo design tokens
+// zephyr design tokens
 const green = chalk.hex('#02e027');
 const cyan = chalk.hex('#00fff9');
 const red = chalk.hex('#ff3c00');
@@ -20,7 +20,7 @@ const dim = chalk.hex('#a0a0a0');
 
 function showBanner() {
     console.log('');
-    console.log(green(figlet.textSync('davicarvalhoo', { font: 'Small' })));
+    console.log(green(figlet.textSync('zephyr', { font: 'Small' })));
     console.log(dim('  SaaS starter kit generator'));
     console.log(dim('  TypeScript + React + PostgreSQL + multi-tenant'));
     console.log(cyan('  github.com/davicarvalhoo'));
@@ -31,14 +31,14 @@ function showHelp() {
     showBanner();
 
     console.log(green.bold('Usage:'));
-    console.log(`  davicarvalhoo              ${dim('Create a new project')}`);
-    console.log(`  davicarvalhoo create       ${dim('Create a new project')}`);
-    console.log(`  davicarvalhoo build ${dim('<app> <builds>')}       ${dim('Build for production')}`);
-    console.log(`  davicarvalhoo build-deps ${dim('<builds>')}        ${dim('Install deps in build')}`);
-    console.log(`  davicarvalhoo icons ${dim('[--from logo.png]')}    ${dim('Generate mobile icons')}`);
-    console.log(`  davicarvalhoo update ${dim('<path> [--yes]')}      ${dim('Pull template updates into a project')}`);
-    console.log(`  davicarvalhoo --help                  ${dim('Show this help')}`);
-    console.log(`  davicarvalhoo --version               ${dim('Show version')}`);
+    console.log(`  zephyr               ${dim('Create a new project')}`);
+    console.log(`  zephyr create        ${dim('Create a new project')}`);
+    console.log(`  zephyr build ${dim('<app> <builds>')}       ${dim('Build for production')}`);
+    console.log(`  zephyr build-deps ${dim('<builds>')}        ${dim('Install deps in build')}`);
+    console.log(`  zephyr icons ${dim('[--from logo.png]')}    ${dim('Generate mobile icons')}`);
+    console.log(`  zephyr update ${dim('<path> [--yes]')}      ${dim('Pull template updates into a project')}`);
+    console.log(`  zephyr --help                  ${dim('Show this help')}`);
+    console.log(`  zephyr --version               ${dim('Show version')}`);
     console.log('');
     console.log(green.bold('What you get:'));
     console.log(`  ${green('>')} Multi-tenant auth (cookie-based JWT)`);
@@ -54,7 +54,7 @@ function showHelp() {
 }
 
 function showVersion() {
-    console.log(`${green('davicarvalhoo')} ${dim('v' + version)}`);
+    console.log(`${green('zephyr')} ${dim('v' + version)}`);
 }
 
 async function runBuild(args) {
@@ -62,13 +62,13 @@ async function runBuild(args) {
     const buildDir = args[2];
 
     if (!appDir || !buildDir) {
-        console.log(red('Usage: davicarvalhoo build <app-dir> <build-dir>'));
+        console.log(red('Usage: zephyr build <app-dir> <build-dir>'));
         console.log('');
         console.log(dim('  <app-dir>    Path to the project (source)'));
         console.log(dim('  <build-dir>  Path to the builds output'));
         console.log('');
         console.log(dim('  Example:'));
-        console.log(`  ${green('$')} davicarvalhoo build ../app ../builds`);
+        console.log(`  ${green('$')} zephyr build ../app ../builds`);
         process.exit(1);
     }
 
@@ -135,12 +135,12 @@ async function runBuildDeps(args) {
     const buildDir = args[1];
 
     if (!buildDir) {
-        console.log(red('Usage: davicarvalhoo build-deps <build-dir>'));
+        console.log(red('Usage: zephyr build-deps <build-dir>'));
         console.log('');
         console.log(dim('  <build-dir>  Path to the builds output'));
         console.log('');
         console.log(dim('  Example:'));
-        console.log(`  ${green('$')} davicarvalhoo build-deps ../builds`);
+        console.log(`  ${green('$')} zephyr build-deps ../builds`);
         process.exit(1);
     }
 
@@ -165,7 +165,7 @@ if (!command || command === 'create') {
         ? args[1]
         : '.';
     if (!projectPath) {
-        console.log(red('Usage: davicarvalhoo update <path> [--yes]'));
+        console.log(red('Usage: zephyr update <path> [--yes]'));
         console.log(dim(
             '  --yes  Accept all auto-updates without prompting.'
         ));
@@ -178,6 +178,6 @@ if (!command || command === 'create') {
     showVersion();
 } else {
     console.log(red(`Unknown command: ${command}`));
-    console.log(`Run ${green('davicarvalhoo --help')} to see available commands.`);
+    console.log(`Run ${green('zephyr --help')} to see available commands.`);
     process.exit(1);
 }

@@ -19,6 +19,40 @@ CLI que gera projetos SaaS completos com **servidor**, **painel admin**, **site 
 
 ## Instalação
 
+### 🐳 Via Docker (recomendado — sem instalar nada)
+
+Precisa apenas de [Docker](https://docker.com) instalado. **Um comando** e pronto:
+
+```bash
+# Clonar o repositório
+git clone https://github.com/DaviCarvalhoo/zephyr.git
+cd zephyr
+
+# Criar um projeto (interativo)
+docker compose run --rm zephyr
+```
+
+O projeto gerado aparece na pasta `output/`.
+
+**Outros comandos via Docker:**
+
+```bash
+docker compose run --rm zephyr create        # criar projeto
+docker compose run --rm zephyr --help        # ver ajuda
+docker compose run --rm zephyr icons         # gerar ícones
+docker compose run --rm zephyr --version     # ver versão
+```
+
+> 💡 **Sem Docker Compose?** Use direto:
+> ```bash
+> docker build -t zephyr .
+> docker run -it --rm -v "$(pwd)/output:/output" zephyr
+> ```
+
+---
+
+### Via npm (requer Node.js 20+)
+
 ```bash
 npm install -g zephyr
 ```
@@ -26,7 +60,10 @@ npm install -g zephyr
 ## Quick Start
 
 ```bash
-# Criar um novo projeto (modo interativo)
+# Via Docker (recomendado)
+docker compose run --rm zephyr
+
+# Via npm (se instalou globalmente)
 zephyr
 
 # Ou explicitamente

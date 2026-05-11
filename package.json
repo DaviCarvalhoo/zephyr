@@ -1,5 +1,5 @@
 {
-    "name": "davicarvalhoo",
+    "name": "zephyr",
     "type": "module",
     "version": "1.1.0",
     "description": "SaaS starter kit generator — server, admin SPA, public site (i18n), mobile app (offline-first, IAP, native push)",
@@ -12,7 +12,7 @@
         "url": "git+https://github.com/davicarvalhoo/cli.git"
     },
     "keywords": [
-        "davicarvalhoo"
+        "zephyr"
     ],
     "author": "davicarvalhoo",
     "license": "MIT",
@@ -20,7 +20,7 @@
         "url": "https://github.com/davicarvalhoo/cli/issues"
     },
     "bin": {
-        "davicarvalhoo": "cli.mjs"
+        "zephyr": "cli.mjs"
     },
     "homepage": "https://github.com/davicarvalhoo/cli#readme",
     "dependencies": {

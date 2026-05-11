@@ -1,12 +1,12 @@
 /**
- * `davicarvalhoo update <path>` — re-apply the template against an
+ * `zephyr update <path>` — re-apply the template against an
  * existing project and pull in everything the template added/changed
  * since the project was scaffolded.
  *
  * The hard part is "what counts as user-edited". We solved it by
  * writing a manifest at scaffold time:
  *
- *   .davicarvalhoo/manifest.json
+ *   .zephyr/manifest.json
  *     { templateVersion, preset, details, files: { path: sha256 } }
  *
  * The hash captures each file AFTER placeholder substitution — i.e.
@@ -37,7 +37,7 @@ import { generateIcons, ICON_TARGETS } from './icons.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const TEMPLATE_DIR = path.join(__dirname, 'template');
-const MANIFEST_PATH = '.davicarvalhoo/manifest.json';
+const MANIFEST_PATH = '.zephyr/manifest.json';
 
 // Mirror of the preset → top-level includes mapping in create.mjs.
 // Kept in sync manually because importing from create.mjs would pull
@@ -100,7 +100,7 @@ function isBinary(filePath) {
 // Skip noise: macOS metadata, dependency dirs, generated build
 // outputs, the manifest itself, git internals.
 const SKIP_DIRS = new Set([
-    '.git', '.davicarvalhoo', 'node_modules', 'dist', 'build',
+    '.git', '.zephyr', 'node_modules', 'dist', 'build',
     '.expo', '.next', 'ios', 'android', '.DS_Store'
 ]);
 const SKIP_FILES = new Set(['.DS_Store', 'Thumbs.db']);
@@ -215,7 +215,7 @@ function readManifest(projectDir) {
 }
 
 async function writeManifest(projectDir, manifest) {
-    const dir = path.join(projectDir, '.davicarvalhoo');
+    const dir = path.join(projectDir, '.zephyr');
     if (!fs.existsSync(dir)) {
         await fs.promises.mkdir(dir, { recursive: true });
     }
@@ -305,7 +305,7 @@ export async function updateProject(projectDirArg, opts = {}) {
     const manifest = readManifest(projectDir);
     if (!manifest) {
         console.log(red(
-            `No .davicarvalhoo/manifest.json in ${projectDir}.`
+            `No .zephyr/manifest.json in ${projectDir}.`
         ));
         console.log(dim(
             '  Update needs the manifest written at scaffold time '
@@ -539,7 +539,7 @@ export async function writeInitialManifest({
     for (const abs of files) {
         const rel = path.relative(projectDir, abs);
         // Skip the manifest dir itself + git stuff.
-        if (rel.startsWith('.davicarvalhoo/') || rel.startsWith('.git/')) {
+        if (rel.startsWith('.zephyr/') || rel.startsWith('.git/')) {
             continue;
         }
         const buf = await fs.promises.readFile(abs);
