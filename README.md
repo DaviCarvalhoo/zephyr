@@ -19,7 +19,7 @@ CLI que gera projetos SaaS completos com **servidor**, **painel admin**, **site 
 
 ## Instalação
 
-### 🐳 Via Docker (recomendado — sem instalar nada)
+### Via Docker (recomendado — sem instalar nada)
 
 Precisa apenas de [Docker](https://docker.com) instalado. **Um comando** e pronto:
 
@@ -43,7 +43,7 @@ docker compose run --rm zephyr icons         # gerar ícones
 docker compose run --rm zephyr --version     # ver versão
 ```
 
-> 💡 **Sem Docker Compose?** Use direto:
+>  **Sem Docker Compose?** Use direto:
 > ```bash
 > docker build -t zephyr .
 > docker run -it --rm -v "$(pwd)/output:/output" zephyr
@@ -82,7 +82,7 @@ O CLI vai perguntar:
 
 Depois de confirmar, o projeto e gerado com tudo configurado.
 
-### 🐳 Gerenciando o projeto (Docker-first)
+### Gerenciando o projeto (Docker-first)
 
 Depois de criar o projeto, entre na pasta e use os novos comandos simplificados:
 
