@@ -13,6 +13,19 @@ import { buildProject, buildDeps } from './build.mjs';
 import { generateIcons } from './icons.mjs';
 import { updateProject } from './update.mjs';
 import fs from 'node:fs';
+import os from 'node:os';
+
+function getLocalIp() {
+    const interfaces = os.networkInterfaces();
+    for (const name of Object.keys(interfaces)) {
+        for (const iface of interfaces[name]) {
+            if (iface.family === 'IPv4' && !iface.internal) {
+                return iface.address;
+            }
+        }
+    }
+    return '127.0.0.1';
+}
 
 function getProjectPort(key, fallback) {
     try {
@@ -193,12 +206,15 @@ if (!command || command === 'create') {
         const adminPort = getProjectPort('ADMIN_UI_PORT', '5173');
         const apiPort = getProjectPort('API_PORT', '4000');
         const siteApiPort = getProjectPort('SITE_API_PORT', '4001');
+        const localIp = getLocalIp();
 
         console.log('');
-        console.log(green.bold('  Projeto iniciado com sucesso!'));
+        console.log(green.bold('   Projeto iniciado com sucesso!'));
         console.log('');
         console.log(dim('  Interfaces disponíveis:'));
+        console.log(`  ${green('➜')}  ${chalk.bold('Site Público:')}    ${cyan(`http://localhost:${sitePort}`)}  ${dim(`(http://${localIp}:${sitePort})`)}`);
         console.log(`  ${green('➜')}  ${chalk.bold('Site Público:')}    ${cyan(`http://localhost:${sitePort}`)}`);
+        console.log(`  ${green('➜')}  ${chalk.bold('Painel Admin:')}    ${cyan(`http://localhost:${adminPort}`)}  ${dim(`(http://${localIp}:${adminPort})`)}`);
         console.log(`  ${green('➜')}  ${chalk.bold('Painel Admin:')}    ${cyan(`http://localhost:${adminPort}`)}`);
         console.log('');
         console.log(dim('  APIs e Backend:'));
