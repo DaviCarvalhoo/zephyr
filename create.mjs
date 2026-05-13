@@ -473,6 +473,7 @@ async function copyTemplate(outputDir, preset) {
 
 export async function createProject() {
     const details = await promptProjectDetails();
+    if (!details) return;
 
     showSummary(details);
 
