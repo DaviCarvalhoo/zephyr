@@ -683,6 +683,6 @@ function showNextSteps(details) {
         console.log(dim(`  Mobile:       cd mobile/${details.slug} && npm run ios | android | web`));
     }
     console.log('');
-    console.log(dim('  Happy hacking! - ') + cyan('github.com/davicarvalhoo'));
+    console.log(dim('  Happy hacking! - ') + cyan('\u001b]8;;https://github.com/davicarvalhoo\u001b\\github.com/davicarvalhoo\u001b]8;;\u001b\\'));
     console.log('');
 }

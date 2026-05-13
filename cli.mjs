@@ -55,7 +55,7 @@ function showBanner() {
     console.log(green(figlet.textSync('Zephyr', { font: 'Small' })));
     console.log(dim('  SaaS starter kit generator'));
     console.log(dim('  TypeScript + React + PostgreSQL + multi-tenant'));
-    console.log(cyan('  github.com/davicarvalhoo'));
+    console.log(cyan('  \u001b]8;;https://github.com/davicarvalhoo\u001b\\github.com/davicarvalhoo\u001b]8;;\u001b\\'));
     console.log('');
 }
 
