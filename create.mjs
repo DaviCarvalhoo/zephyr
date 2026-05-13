@@ -105,12 +105,20 @@ async function promptProjectDetails() {
         type: 'list',
         name: 'preset',
         message: 'What do you want to generate?',
-        choices: Object.entries(PRESETS).map(([value, def]) => ({
-            name: def.label,
-            value,
-        })),
+        choices: [
+            ...Object.entries(PRESETS).map(([value, def]) => ({
+                name: def.label,
+                value,
+            })),
+            { name: dim('Cancel'), value: 'cancel' }
+        ],
         default: 'everything',
     }]);
+
+    if (preset === 'cancel') {
+        console.log(dim('  Aborted.'));
+        return;
+    }
 
     const presetDef = PRESETS[preset];
 

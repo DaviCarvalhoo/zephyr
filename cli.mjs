@@ -14,6 +14,7 @@ import { generateIcons } from './icons.mjs';
 import { updateProject } from './update.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
+import { execSync } from 'node:child_process';
 
 function getLocalIp() {
     const interfaces = os.networkInterfaces();
@@ -58,6 +59,15 @@ function showBanner() {
     console.log('');
 }
 
+// Global SIGINT handler for general commands
+const isRunCommand = process.argv.slice(2)[0] === 'run';
+if (!isRunCommand) {
+    process.on('SIGINT', () => {
+        console.log('\n' + red('  Operation cancelled.'));
+        process.exit(0);
+    });
+}
+
 function showHelp() {
     showBanner();
 
@@ -88,8 +98,6 @@ function showHelp() {
 function showVersion() {
     console.log(`${green('zephyr')} ${dim('v' + version)}`);
 }
-
-import { execSync } from 'node:child_process';
 
 async function runBuild(args) {
     const appDir = args[1];

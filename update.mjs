@@ -275,9 +275,13 @@ async function askPerFile(rel, projectBuf, templateBuf, mode) {
     console.log(yellow(`  ${rel}`) + dim(` — ${mode}`));
     previewDiff(rel, projectBuf, templateBuf);
     const ans = await prompt(
-        '  override? [y/N/d=show full diff/a=accept all] '
+        '  override? [y/N/d=show full diff/a=accept all/q=quit] '
     );
     const lower = ans.toLowerCase();
+    if (lower === 'q') {
+        console.log(dim('  Update aborted.'));
+        process.exit(0);
+    }
     if (lower === 'd') {
         console.log('');
         console.log(projectBuf.toString('utf8'));
