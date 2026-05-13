@@ -117,7 +117,7 @@ async function promptProjectDetails() {
     const { name } = await inquirer.prompt([{
         type: 'input',
         name: 'name',
-        message: 'Project name (e.g. "Minha Empresa"):',
+        message: 'Project name (e.g. "My Project"):',
         validate: (v) => v.trim() ? true : 'Project name is required',
     }]);
 
@@ -143,7 +143,7 @@ async function promptProjectDetails() {
         {
             type: 'input',
             name: 'domain',
-            message: 'Domain (e.g. "minhaempresa.com.br"):',
+            message: 'Domain (e.g. "mycompany.com"):',
             validate: (v) => v.trim() ? true : 'Domain is required',
         },
     ];

@@ -97,12 +97,12 @@ async function runBuild(args) {
 
     if (!appDir || !buildDir) {
         showBanner();
-        console.log(cyan('   Construindo imagens Docker (isso pode demorar na primeira vez)...'));
+        console.log(cyan('   Building Docker images (this may take a while the first time)...'));
         try {
             execSync('docker compose build', { stdio: 'inherit' }); 
-            console.log('\n' + green.bold('  Imagens construídas com sucesso!') + '\n');
+            console.log('\n' + green.bold('  Images built successfully!') + '\n');
         } catch (e) {
-            console.log(red('\n  Erro ao construir as imagens.'));
+            console.log(red('\n  Error building images.'));
             process.exit(1);
         }
         return;
@@ -197,7 +197,7 @@ if (!command || command === 'create') {
     await runIcons(args);
 } else if (command === 'run') {
     showBanner();
-    console.log(cyan('  Iniciando sistema Zephyr em background...'));
+    console.log(cyan('  Starting Zephyr system in background...'));
     try {
         // Run detached to keep terminal clean
         execSync('docker compose up --build -d', { stdio: 'ignore' });
@@ -209,28 +209,28 @@ if (!command || command === 'create') {
         const localIp = getLocalIp();
 
         console.log('');
-        console.log(green.bold('   Projeto iniciado com sucesso!'));
+        console.log(green.bold('   Project started successfully!'));
         console.log('');
-        console.log(dim('  Interfaces disponíveis:'));
-        console.log(`  ${green('➜')}  ${chalk.bold('Site Público:')}    ${cyan(`http://localhost:${sitePort}`)}  ${dim(`(http://${localIp}:${sitePort})`)}`);
-        console.log(`  ${green('➜')}  ${chalk.bold('Painel Admin:')}    ${cyan(`http://localhost:${adminPort}`)}  ${dim(`(http://${localIp}:${adminPort})`)}`);
-        console.log(dim('  APIs e Backend:'));
+        console.log(dim('  Available interfaces:'));
+        console.log(`  ${green('➜')}  ${chalk.bold('Public Site:')}    ${cyan(`http://localhost:${sitePort}`)}  ${dim(`(http://${localIp}:${sitePort})`)}`);
+        console.log(`  ${green('➜')}  ${chalk.bold('Admin Panel:')}    ${cyan(`http://localhost:${adminPort}`)}  ${dim(`(http://${localIp}:${adminPort})`)}`);
+        console.log(dim('  APIs and Backend:'));
         console.log(`  ${green('➜')}  ${chalk.bold('Admin API:')}      ${cyan(`http://localhost:${apiPort}`)}  ${dim(`(http://${localIp}:${apiPort})`)}`);
         console.log(`  ${green('➜')}  ${chalk.bold('Site API:')}       ${cyan(`http://localhost:${siteApiPort}`)}  ${dim(`(http://${localIp}:${siteApiPort})`)}`);
         console.log('');
-        console.log(chalk.yellow('  ➜  Pressione CTRL+C para encerrar o sistema.'));
+        console.log(chalk.yellow('  ➜  Press CTRL+C to stop the system.'));
         console.log('');
-        console.log(dim('  Dica: Para ver os logs reais, use "docker compose logs -f" em outro terminal.'));
+        console.log(dim('  Tip: To see real-time logs, use "docker compose logs -f" in another terminal.'));
         console.log('');
 
         // Catch Ctrl+C to stop the containers
         process.on('SIGINT', () => {
-            console.log('\n' + cyan('  Encerrando containers do sistema...'));
+            console.log('\n' + cyan('  Stopping system containers...'));
             try {
                 execSync('docker compose stop', { stdio: 'ignore' });
-                console.log(green('  Sistema encerrado com sucesso.'));
+                console.log(green('  System stopped successfully.'));
             } catch (e) {
-                console.log(red('  Não foi possível parar os containers automaticamente.'));
+                console.log(red('  Could not stop containers automatically.'));
             }
             process.exit(0);
         });
@@ -238,7 +238,7 @@ if (!command || command === 'create') {
         // Keep process alive
         setInterval(() => {}, 1000);
     } catch (e) {
-        console.log(red('\n  Erro ao iniciar. Verifique se o Docker Desktop está rodando ou use "docker compose up" para debugar.'));
+        console.log(red('\n  Error starting. Check if Docker is running or use "docker compose up" to debug.'));
         process.exit(1);
     }
 } else if (command === 'update') {
