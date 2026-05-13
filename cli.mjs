@@ -191,83 +191,91 @@ async function runBuildDeps(args) {
     await buildDeps(buildDir);
 }
 
-const args = process.argv.slice(2);
-const command = args[0];
+try {
+    const args = process.argv.slice(2);
+    const command = args[0];
 
-if (!command || command === 'create') {
-    showBanner();
-    await createProject();
-} else if (command === 'build') {
-    await runBuild(args);
-} else if (command === 'build-deps') {
-    await runBuildDeps(args);
-} else if (command === 'icons') {
-    await runIcons(args);
-} else if (command === 'run') {
-    showBanner();
-    console.log(cyan('  Starting Zephyr system in background...'));
-    try {
-        // Run detached to keep terminal clean
-        execSync('docker compose up --build -d', { stdio: 'ignore' });
-        
-        const sitePort = getProjectPort('SITE_PORT', '3000');
-        const adminPort = getProjectPort('ADMIN_UI_PORT', '5173');
-        const apiPort = getProjectPort('API_PORT', '4000');
-        const siteApiPort = getProjectPort('SITE_API_PORT', '4001');
-        const localIp = getLocalIp();
+    if (!command || command === 'create') {
+        showBanner();
+        await createProject();
+    } else if (command === 'build') {
+        await runBuild(args);
+    } else if (command === 'build-deps') {
+        await runBuildDeps(args);
+    } else if (command === 'icons') {
+        await runIcons(args);
+    } else if (command === 'run') {
+        showBanner();
+        console.log(cyan('  Starting Zephyr system in background...'));
+        try {
+            // Run detached to keep terminal clean
+            execSync('docker compose up --build -d', { stdio: 'ignore' });
+            
+            const sitePort = getProjectPort('SITE_PORT', '3000');
+            const adminPort = getProjectPort('ADMIN_UI_PORT', '5173');
+            const apiPort = getProjectPort('API_PORT', '4000');
+            const siteApiPort = getProjectPort('SITE_API_PORT', '4001');
+            const localIp = getLocalIp();
 
-        console.log('');
-        console.log(green.bold('   Project started successfully!'));
-        console.log('');
-        console.log(dim('  Available interfaces:'));
-        console.log(`  ${green('➜')}  ${chalk.bold('Public Site:')}    ${cyan(`http://localhost:${sitePort}`)}  ${dim(`(http://${localIp}:${sitePort})`)}`);
-        console.log(`  ${green('➜')}  ${chalk.bold('Admin Panel:')}    ${cyan(`http://localhost:${adminPort}`)}  ${dim(`(http://${localIp}:${adminPort})`)}`);
-        console.log(dim('  APIs and Backend:'));
-        console.log(`  ${green('➜')}  ${chalk.bold('Admin API:')}      ${cyan(`http://localhost:${apiPort}`)}  ${dim(`(http://${localIp}:${apiPort})`)}`);
-        console.log(`  ${green('➜')}  ${chalk.bold('Site API:')}       ${cyan(`http://localhost:${siteApiPort}`)}  ${dim(`(http://${localIp}:${siteApiPort})`)}`);
-        console.log('');
-        console.log(chalk.yellow('  ➜  Press CTRL+C to stop the system.'));
-        console.log('');
-        console.log(dim('  Tip: To see real-time logs, use "docker compose logs -f" in another terminal.'));
-        console.log('');
+            console.log('');
+            console.log(green.bold('   Project started successfully!'));
+            console.log('');
+            console.log(dim('  Available interfaces:'));
+            console.log(`  ${green('➜')}  ${chalk.bold('Public Site:')}    ${cyan(`http://localhost:${sitePort}`)}  ${dim(`(http://${localIp}:${sitePort})`)}`);
+            console.log(`  ${green('➜')}  ${chalk.bold('Admin Panel:')}    ${cyan(`http://localhost:${adminPort}`)}  ${dim(`(http://${localIp}:${adminPort})`)}`);
+            console.log(dim('  APIs and Backend:'));
+            console.log(`  ${green('➜')}  ${chalk.bold('Admin API:')}      ${cyan(`http://localhost:${apiPort}`)}  ${dim(`(http://${localIp}:${apiPort})`)}`);
+            console.log(`  ${green('➜')}  ${chalk.bold('Site API:')}       ${cyan(`http://localhost:${siteApiPort}`)}  ${dim(`(http://${localIp}:${siteApiPort})`)}`);
+            console.log('');
+            console.log(chalk.yellow('  ➜  Press CTRL+C to stop the system.'));
+            console.log('');
+            console.log(dim('  Tip: To see real-time logs, use "docker compose logs -f" in another terminal.'));
+            console.log('');
 
-        // Catch Ctrl+C to stop the containers
-        process.on('SIGINT', () => {
-            console.log('\n' + cyan('  Stopping system containers...'));
-            try {
-                execSync('docker compose stop', { stdio: 'ignore' });
-                console.log(green('  System stopped successfully.'));
-            } catch (e) {
-                console.log(red('  Could not stop containers automatically.'));
-            }
-            process.exit(0);
-        });
+            // Catch Ctrl+C to stop the containers
+            process.on('SIGINT', () => {
+                console.log('\n' + cyan('  Stopping system containers...'));
+                try {
+                    execSync('docker compose stop', { stdio: 'ignore' });
+                    console.log(green('  System stopped successfully.'));
+                } catch (e) {
+                    console.log(red('  Could not stop containers automatically.'));
+                }
+                process.exit(0);
+            });
 
-        // Keep process alive
-        setInterval(() => {}, 1000);
-    } catch (e) {
-        console.log(red('\n  Error starting. Check if Docker is running or use "docker compose up" to debug.'));
+            // Keep process alive
+            setInterval(() => {}, 1000);
+        } catch (e) {
+            console.log(red('\n  Error starting. Check if Docker is running or use "docker compose up" to debug.'));
+            process.exit(1);
+        }
+    } else if (command === 'update') {
+        const flags = parseFlags(args.slice(1));
+        const projectPath = args[1] && !args[1].startsWith('--')
+            ? args[1]
+            : '.';
+        if (!projectPath) {
+            console.log(red('Usage: zephyr update <path> [--yes]'));
+            console.log(dim(
+                '  --yes  Accept all auto-updates without prompting.'
+            ));
+            process.exit(1);
+        }
+        await updateProject(projectPath, { yes: !!flags.yes });
+    } else if (command === '--help' || command === '-h' || command === 'help') {
+        showHelp();
+    } else if (command === '--version' || command === '-v') {
+        showVersion();
+    } else {
+        console.log(red(`Unknown command: ${command}`));
+        console.log(`Run ${green('zephyr --help')} to see available commands.`);
         process.exit(1);
     }
-} else if (command === 'update') {
-    const flags = parseFlags(args.slice(1));
-    const projectPath = args[1] && !args[1].startsWith('--')
-        ? args[1]
-        : '.';
-    if (!projectPath) {
-        console.log(red('Usage: zephyr update <path> [--yes]'));
-        console.log(dim(
-            '  --yes  Accept all auto-updates without prompting.'
-        ));
-        process.exit(1);
+} catch (err) {
+    if (err.name === 'ExitPromptError' || (err instanceof Error && err.message.includes('force closed'))) {
+        process.exit(0);
     }
-    await updateProject(projectPath, { yes: !!flags.yes });
-} else if (command === '--help' || command === '-h' || command === 'help') {
-    showHelp();
-} else if (command === '--version' || command === '-v') {
-    showVersion();
-} else {
-    console.log(red(`Unknown command: ${command}`));
-    console.log(`Run ${green('zephyr --help')} to see available commands.`);
+    console.error(err);
     process.exit(1);
 }
